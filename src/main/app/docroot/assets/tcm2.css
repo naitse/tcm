@@ -20,8 +20,8 @@ color: #454545;
   }
 
   .container{
-  border: 5px solid #1B1B1D;
-  box-shadow: inset -1px -1px 1px 0px #232326;
+  border: 2px solid #8695A8;
+/*   box-shadow: inset -1px -1px 1px 0px #232326; */
   box-sizing: border-box;
   width: 95%;
   height: 95%;
@@ -32,8 +32,8 @@ color: #454545;
   }
 
   .left-pannel{
-border: 2px solid gray;
-box-shadow: inset 0px 0px 15px -3px black;
+border: 1px solid #8695A8;
+box-shadow: inset 0px 0px 12px -3px black;
   box-sizing: border-box;
   height: 100%;
   width: 30%;
@@ -42,8 +42,8 @@ box-shadow: inset 0px 0px 15px -3px black;
   overflow-y: auto;
   }
 .right-pannel{
-border: 2px solid gray;
-box-shadow: inset 0px 0px 15px -3px black;
+border: 1px solid #8695A8;
+box-shadow: inset 0px 0px 12px -3px black;
   box-sizing: border-box;
   height: 100%;
   width: 69%;
@@ -53,7 +53,7 @@ box-shadow: inset 0px 0px 15px -3px black;
   .toolbar{
     background: #B1BBC8;
 /*     padding: 10px 10px 10px 10px; */
-    border: 1px solid #6C7885;
+    border-bottom: 1px solid #6C7885;
     border-radius: 6px 6px 0px 0px;
     height: 28px;
   }
@@ -106,12 +106,12 @@ position: relative;
 
 #desc-container{
 /* 	padding: 10px 20px 10px 20px; */
-max-height: 100px;
+/* max-height: 100px; */
 overflow-y: auto;
 /* background: #FDFEF1; */
 box-shadow: 0px 1px 12px 0px black inset;
 height: 100px;
-
+margin:0px;
 clear: both;
 -webkit-box-shadow: rgba(69,69,69,0.667) 0 0 6px inset;
 -moz-box-shadow: rgba(69,69,69,0.667) 0 0 6px inset;
@@ -500,6 +500,7 @@ top: 6px;
 	float:left;
 	margin-right: 5px;
 	padding-right: 2px;
+	min-width:218px;
 }
 
 .ui-resizable-e{
@@ -509,6 +510,15 @@ top: 6px;
 	width: 9px;
 background: url("images/dots-vertical.png") no-repeat;
 background-position: center;
+}
+
+.ui-resizable-s {
+cursor: s-resize;
+height: 7px;
+width: 100%;
+bottom: -5px;
+left: 0;
+background:blue;
 }
 
 .left-pannel .ui-resizable-e{

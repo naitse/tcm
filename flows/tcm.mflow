@@ -7,11 +7,11 @@
             <property value="MySQL_Data_Source" name="name"/>
             <property name="loginTimeout"/>
             <property value="UNSPECIFIED" name="transactionIsolation"/>
-            <property value="root" name="user"/>
             <property value="" name="password"/>
-            <property value="1" name="auxiliary;index"/>
-            <property value="jdbc:mysql://localhost:3306/tcm" name="url"/>
+            <property value="root" name="user"/>
             <property name="database"/>
+            <property value="jdbc:mysql://localhost:3306/tcm" name="url"/>
+            <property value="1" name="auxiliary;index"/>
         </properties>
     </global-element>
     <global-element type="http://www.mulesoft.org/schema/mule/ee/jdbc/connector" name="Database" entity-id="Database#1">
@@ -38,26 +38,26 @@
             <property value="Jira" name="name"/>
             <property value="http://www.mulesoft.org/jira/rpc/soap/jirasoapservice-v2" name="connectionAddress"/>
             <property value="3" name="auxiliary;index"/>
-            <property-collection name="@http://www.mulesoft.org/schema/mule/core/reconnect-forever;0">
-                <property value="20000" name="frequency"/>
-                <property value="5" name="auxiliary;wrapIn"/>
-                <property value="5" name="auxiliary;index"/>
-            </property-collection>
             <property-collection name="@http://www.mulesoft.org/schema/mule/jira/connection-pooling-profile;0">
                 <property value="WHEN_EXHAUSTED_GROW" name="exhaustedAction"/>
-                <property value="4" name="auxiliary;wrapIn"/>
                 <property value="4" name="auxiliary;index"/>
+                <property value="4" name="auxiliary;wrapIn"/>
                 <property value="INITIALISE_ONE" name="initialisationPolicy"/>
+            </property-collection>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/core/reconnect-forever;0">
+                <property value="20000" name="frequency"/>
+                <property value="5" name="auxiliary;index"/>
+                <property value="5" name="auxiliary;wrapIn"/>
             </property-collection>
         </properties>
     </global-element>
-    <flow SubFlow="false" name="jira-TL-sync-UI" entity-id="550cc0f3-06dd-4d6e-92f1-e70fa0f88be4">
+    <flow SubFlow="false" name="jira-TL-sync-UI" entity-id="94b97c11-26ab-481f-981a-1fe202458c78">
         <properties>
             <property name="processingStrategy"/>
             <property name="processingStrategy2"/>
             <property name="bussinessEventsLabel"/>
-            <property value="6" name="auxiliary;index"/>
             <property name="tracking:enable-default-events"/>
+            <property value="6" name="auxiliary;index"/>
         </properties>
         <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#1">
             <graphicalData height="0" width="0" y="0" x="0"/>
@@ -76,17 +76,17 @@
                     <property value="request-response" name="exchange-pattern"/>
                     <property name="tracking:enable-default-events"/>
                     <property name="ref"/>
-                    <property name="httpLabel"/>
                     <property name="transformer-refs"/>
+                    <property name="httpLabel"/>
                     <property name="address"/>
-                    <property name="encoding"/>
                     <property value="tcm" name="path"/>
+                    <property name="encoding"/>
                     <property name="responseTransformer-refs"/>
                     <property name="method"/>
                     <property name="user"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property name="mimeType"/>
                     <property name="responseTimeout"/>
+                    <property name="mimeType"/>
+                    <property value="7" name="auxiliary;index"/>
                     <property name="connector-ref"/>
                 </properties>
             </endpoint>
@@ -96,13 +96,13 @@
             </unknown>
         </lane>
     </flow>
-    <flow SubFlow="false" name="tcmFlow3" entity-id="96df23bf-a6b0-447c-838d-f4dd7c3f6caf">
+    <flow SubFlow="false" name="tcmFlow3" entity-id="e5548865-89e9-42c3-9355-cd6b2bf8e009">
         <properties>
             <property name="processingStrategy"/>
             <property name="processingStrategy2"/>
             <property name="bussinessEventsLabel"/>
-            <property value="9" name="auxiliary;index"/>
             <property name="tracking:enable-default-events"/>
+            <property value="9" name="auxiliary;index"/>
         </properties>
         <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#2">
             <graphicalData height="0" width="0" y="0" x="0"/>
@@ -121,17 +121,17 @@
                     <property value="request-response" name="exchange-pattern"/>
                     <property name="tracking:enable-default-events"/>
                     <property name="ref"/>
-                    <property name="httpLabel"/>
                     <property name="transformer-refs"/>
+                    <property name="httpLabel"/>
                     <property name="address"/>
-                    <property name="encoding"/>
                     <property value="getDB" name="path"/>
+                    <property name="encoding"/>
                     <property name="responseTransformer-refs"/>
                     <property name="method"/>
                     <property name="user"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property name="mimeType"/>
                     <property name="responseTimeout"/>
+                    <property name="mimeType"/>
+                    <property value="10" name="auxiliary;index"/>
                     <property name="connector-ref"/>
                 </properties>
             </endpoint>
@@ -151,15 +151,15 @@
                     <property name="address"/>
                     <property name="encoding"/>
                     <property name="responseTransformer-refs"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
                     <property value="11" name="auxiliary;index"/>
+                    <property name="responseTimeout"/>
+                    <property name="mimeType"/>
                     <property value="Database" name="connector-ref"/>
                     <property-collection name="@http://www.mulesoft.org/schema/mule/ee/jdbc/query;0">
                         <property value="SELECT R.name releaseName, GROUP_CONCAT(I.name) iterationName FROM tcm.releases R&#xA;INNER JOIN tcm.releases_iterations RI ON R.id = RI.releaseId&#xA;INNER JOIN tcm.iterations I ON I.id = RI.IterationId&#xA;GROUP BY releaseName" name="value"/>
-                        <property value="12" name="auxiliary;wrapIn"/>
-                        <property value="12" name="auxiliary;index"/>
                         <property value="getReleasesIterations" name="key"/>
+                        <property value="12" name="auxiliary;index"/>
+                        <property value="12" name="auxiliary;wrapIn"/>
                     </property-collection>
                 </properties>
             </endpoint>
@@ -180,19 +180,19 @@
                     <property name="ignoreBadInput"/>
                     <property name="encoding"/>
                     <property name="mapper-ref"/>
-                    <property value="14" name="auxiliary;index"/>
                     <property name="mimeType"/>
+                    <property value="14" name="auxiliary;index"/>
                 </properties>
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="tcmFlow4" entity-id="db375066-a0f2-4fd2-b0b8-2db59c0a2211">
+    <flow SubFlow="false" name="tcmFlow4" entity-id="18dbb4c3-de90-4019-9316-0e8497f1d1c1">
         <properties>
             <property name="processingStrategy"/>
             <property name="processingStrategy2"/>
             <property name="bussinessEventsLabel"/>
-            <property value="15" name="auxiliary;index"/>
             <property name="tracking:enable-default-events"/>
+            <property value="15" name="auxiliary;index"/>
         </properties>
         <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#3">
             <graphicalData height="0" width="0" y="0" x="0"/>
@@ -211,17 +211,17 @@
                     <property value="request-response" name="exchange-pattern"/>
                     <property name="tracking:enable-default-events"/>
                     <property name="ref"/>
-                    <property name="httpLabel"/>
                     <property name="transformer-refs"/>
+                    <property name="httpLabel"/>
                     <property name="address"/>
-                    <property name="encoding"/>
                     <property value="getFeatures" name="path"/>
+                    <property name="encoding"/>
                     <property name="responseTransformer-refs"/>
                     <property name="method"/>
                     <property name="user"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property name="mimeType"/>
                     <property name="responseTimeout"/>
+                    <property name="mimeType"/>
+                    <property value="16" name="auxiliary;index"/>
                     <property name="connector-ref"/>
                 </properties>
             </endpoint>
@@ -241,15 +241,15 @@
                     <property name="address"/>
                     <property name="encoding"/>
                     <property name="responseTransformer-refs"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
                     <property value="17" name="auxiliary;index"/>
+                    <property name="responseTimeout"/>
+                    <property name="mimeType"/>
                     <property value="Database" name="connector-ref"/>
                     <property-collection name="@http://www.mulesoft.org/schema/mule/ee/jdbc/query;0">
                         <property value="SELECT F.id featureId, F.name featureName, F.description featureDescription, F.jiraKey jiraKey &#xA;FROM tcm.features F&#xA;INNER JOIN tcm.iterations_features ItF ON ItF.featureId = F.id&#xA;inner join tcm.iterations I on I.id = ItF.iterationId&#xA;WHERE I.name = #[groovy:message.getInboundProperty('http.query.params').itId]" name="value"/>
-                        <property value="18" name="auxiliary;wrapIn"/>
-                        <property value="18" name="auxiliary;index"/>
                         <property value="getFeatures" name="key"/>
+                        <property value="18" name="auxiliary;index"/>
+                        <property value="18" name="auxiliary;wrapIn"/>
                     </property-collection>
                 </properties>
             </endpoint>
@@ -261,19 +261,19 @@
                     <property name="ignoreBadInput"/>
                     <property name="encoding"/>
                     <property name="mapper-ref"/>
-                    <property value="19" name="auxiliary;index"/>
                     <property name="mimeType"/>
+                    <property value="19" name="auxiliary;index"/>
                 </properties>
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="tcmFlow5" entity-id="6566a19f-d168-4d74-8fdf-42338199858f">
+    <flow SubFlow="false" name="tcmFlow5" entity-id="cf981c75-9215-4371-896a-48a7eb3ffb7d">
         <properties>
             <property name="processingStrategy"/>
             <property name="processingStrategy2"/>
             <property name="bussinessEventsLabel"/>
-            <property value="20" name="auxiliary;index"/>
             <property name="tracking:enable-default-events"/>
+            <property value="20" name="auxiliary;index"/>
         </properties>
         <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#4">
             <graphicalData height="0" width="0" y="0" x="0"/>
@@ -292,17 +292,17 @@
                     <property value="request-response" name="exchange-pattern"/>
                     <property name="tracking:enable-default-events"/>
                     <property name="ref"/>
-                    <property name="httpLabel"/>
                     <property name="transformer-refs"/>
+                    <property name="httpLabel"/>
                     <property name="address"/>
-                    <property name="encoding"/>
                     <property value="getTcs" name="path"/>
+                    <property name="encoding"/>
                     <property name="responseTransformer-refs"/>
                     <property name="method"/>
                     <property name="user"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property name="mimeType"/>
                     <property name="responseTimeout"/>
+                    <property name="mimeType"/>
+                    <property value="21" name="auxiliary;index"/>
                     <property name="connector-ref"/>
                 </properties>
             </endpoint>
@@ -322,15 +322,15 @@
                     <property name="address"/>
                     <property name="encoding"/>
                     <property name="responseTransformer-refs"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
                     <property value="22" name="auxiliary;index"/>
+                    <property name="responseTimeout"/>
+                    <property name="mimeType"/>
                     <property value="Database" name="connector-ref"/>
                     <property-collection name="@http://www.mulesoft.org/schema/mule/ee/jdbc/query;0">
                         <property value="SELECT T.id tcId, T.name tcName, T.description tcDescription, T.proposed, S.name statusName, S.id statusId, RH.lastRun &#xA;FROM tcm.tcs T&#xA;INNER JOIN tcm.features_tcs FT ON FT.tcId = T.id&#xA;INNER JOIN tcm.runHistory RH ON T.id = RH.tcId&#xA;INNER JOIN tcm.status S ON S.id = RH.statusId&#xA;where FT.featureId = #[groovy:message.getInboundProperty('http.query.params').ftId]" name="value"/>
-                        <property value="23" name="auxiliary;wrapIn"/>
-                        <property value="23" name="auxiliary;index"/>
                         <property value="getTCs" name="key"/>
+                        <property value="23" name="auxiliary;index"/>
+                        <property value="23" name="auxiliary;wrapIn"/>
                     </property-collection>
                 </properties>
             </endpoint>
@@ -342,19 +342,19 @@
                     <property name="ignoreBadInput"/>
                     <property name="encoding"/>
                     <property name="mapper-ref"/>
-                    <property value="24" name="auxiliary;index"/>
                     <property name="mimeType"/>
+                    <property value="24" name="auxiliary;index"/>
                 </properties>
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="tcmFlow1" entity-id="c79b7d33-0acb-479d-82ca-e054deba3238">
+    <flow SubFlow="false" name="tcmFlow1" entity-id="d19ee574-448f-483c-9f2c-c89509e85ffc">
         <properties>
             <property name="processingStrategy"/>
             <property name="processingStrategy2"/>
             <property name="bussinessEventsLabel"/>
-            <property value="25" name="auxiliary;index"/>
             <property name="tracking:enable-default-events"/>
+            <property value="25" name="auxiliary;index"/>
         </properties>
         <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#5">
             <graphicalData height="0" width="0" y="0" x="0"/>
@@ -373,36 +373,38 @@
                     <property value="request-response" name="exchange-pattern"/>
                     <property name="tracking:enable-default-events"/>
                     <property name="ref"/>
-                    <property name="httpLabel"/>
                     <property name="transformer-refs"/>
+                    <property name="httpLabel"/>
                     <property name="address"/>
-                    <property name="encoding"/>
                     <property value="getFeatureTests" name="path"/>
+                    <property name="encoding"/>
                     <property name="responseTransformer-refs"/>
                     <property name="method"/>
                     <property name="user"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property name="mimeType"/>
                     <property name="responseTimeout"/>
+                    <property name="mimeType"/>
+                    <property value="26" name="auxiliary;index"/>
                     <property name="connector-ref"/>
                 </properties>
             </endpoint>
             <pattern type="http://www.mulesoft.org/schema/mule/scripting/groovyComponent" name="Groovy" entity-id="Groovy#1">
                 <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
-                    <property value="" name="ref"/>
-                    <property value="sleep(1000)" name="text"/>
-                    <property name="updated"/>
+                    <property name="script-ref"/>
                     <property value="27" name="auxiliary;index"/>
-                    <property-collection name="@http://www.mulesoft.org/schema/mule/core/refInterceptorStackType;2092160173">
-                        <property value="" name="ref"/>
-                    </property-collection>
-                    <property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script;2015490672">
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script-for-properties;0">
                         <property value="sleep(1000)" name="text"/>
+                        <property value="Groovy" name="engine"/>
                         <property value="28" name="auxiliary;index"/>
+                        <property value="28" name="auxiliary;wrapIn"/>
+                    </property-collection>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script;0">
+                        <property value="sleep(1000)" name="text"/>
+                        <property value="Groovy" name="engine"/>
+                        <property value="28" name="auxiliary;index"/>
+                        <property value="28" name="auxiliary;wrapIn"/>
                     </property-collection>
                 </properties>
-                <description></description>
             </pattern>
             <endpoint message-exchange-pattern="OneWay" direction="Outbound" type="http://www.mulesoft.org/schema/mule/ee/jdbc/endpoint" name="Database" entity-id="Database#5">
                 <graphicalData height="0" width="0" y="0" x="0"/>
@@ -420,15 +422,15 @@
                     <property name="address"/>
                     <property name="encoding"/>
                     <property name="responseTransformer-refs"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
                     <property value="29" name="auxiliary;index"/>
+                    <property name="responseTimeout"/>
+                    <property name="mimeType"/>
                     <property value="Database" name="connector-ref"/>
                     <property-collection name="@http://www.mulesoft.org/schema/mule/ee/jdbc/query;0">
                         <property value="SELECT (SELECT count(*)&#xA;FROM tcm.features_tcs FT&#xA;INNER JOIN tcm.runHistory RH ON FT.tcId = RH.tcId&#xA;INNER JOIN tcm.status S ON S.id = RH.statusId&#xA;where FT.featureId = #[groovy:message.getInboundProperty('http.query.params').ftId] ) total,&#xA;(SELECT count(*)&#xA;FROM tcm.features_tcs FT&#xA;INNER JOIN tcm.runHistory RH ON FT.tcId = RH.tcId&#xA;INNER JOIN tcm.status S ON S.id = RH.statusId&#xA;where FT.featureId = #[groovy:message.getInboundProperty('http.query.params').ftId] &#xA;and S.id in (2,3,4)&#xA;) run" name="value"/>
-                        <property value="30" name="auxiliary;wrapIn"/>
-                        <property value="30" name="auxiliary;index"/>
                         <property value="getTcsRunned" name="key"/>
+                        <property value="30" name="auxiliary;index"/>
+                        <property value="30" name="auxiliary;wrapIn"/>
                     </property-collection>
                 </properties>
             </endpoint>
@@ -440,19 +442,19 @@
                     <property name="ignoreBadInput"/>
                     <property name="encoding"/>
                     <property name="mapper-ref"/>
-                    <property value="31" name="auxiliary;index"/>
                     <property name="mimeType"/>
+                    <property value="31" name="auxiliary;index"/>
                 </properties>
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="jira-get-iterations" entity-id="d99929b4-f7de-422b-a957-e1bcaed5b0bf">
+    <flow SubFlow="false" name="jira-get-iterations" entity-id="a72c11b2-47ad-4071-beb8-d98bfa30c76e">
         <properties>
             <property name="processingStrategy"/>
             <property name="processingStrategy2"/>
             <property name="bussinessEventsLabel"/>
-            <property value="32" name="auxiliary;index"/>
             <property name="tracking:enable-default-events"/>
+            <property value="32" name="auxiliary;index"/>
         </properties>
         <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#6">
             <graphicalData height="0" width="0" y="0" x="0"/>
@@ -471,17 +473,17 @@
                     <property value="request-response" name="exchange-pattern"/>
                     <property name="tracking:enable-default-events"/>
                     <property name="ref"/>
-                    <property name="httpLabel"/>
                     <property name="transformer-refs"/>
+                    <property name="httpLabel"/>
                     <property name="address"/>
-                    <property name="encoding"/>
                     <property value="jiraSprints" name="path"/>
+                    <property name="encoding"/>
                     <property name="responseTransformer-refs"/>
                     <property name="method"/>
                     <property name="user"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property name="mimeType"/>
                     <property name="responseTimeout"/>
+                    <property name="mimeType"/>
+                    <property value="33" name="auxiliary;index"/>
                     <property name="connector-ref"/>
                 </properties>
             </endpoint>
@@ -500,46 +502,112 @@
                     <property value="request-response" name="exchange-pattern"/>
                     <property name="tracking:enable-default-events"/>
                     <property name="ref"/>
-                    <property name="httpLabel"/>
                     <property name="transformer-refs"/>
+                    <property name="httpLabel"/>
                     <property value="http://dario.carabajal:welcome2mule@www.mulesoft.org/jira/rest/greenhopper/1.0/sprints/53" name="address"/>
-                    <property name="encoding"/>
                     <property name="path"/>
+                    <property name="encoding"/>
                     <property name="responseTransformer-refs"/>
                     <property value="GET" name="method"/>
                     <property name="user"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property name="mimeType"/>
                     <property name="responseTimeout"/>
+                    <property name="mimeType"/>
+                    <property value="34" name="auxiliary;index"/>
                     <property name="connector-ref"/>
                 </properties>
             </endpoint>
         </lane>
     </flow>
-    <flow SubFlow="false" name="jira-get-issues" entity-id="caa0214f-9cad-41f4-91c9-d6175e832429">
+    <flow SubFlow="false" name="jira-get-issues" entity-id="5fd46d21-de8e-4521-866d-d60c39973f5a">
         <properties>
             <property name="processingStrategy"/>
             <property name="processingStrategy2"/>
             <property name="bussinessEventsLabel"/>
-            <property value="35" name="auxiliary;index"/>
             <property name="tracking:enable-default-events"/>
+            <property value="35" name="auxiliary;index"/>
         </properties>
         <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#7">
             <graphicalData height="0" width="0" y="0" x="0"/>
+            <endpoint message-exchange-pattern="RequestResponse" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="HTTP#8">
+                <graphicalData height="0" width="0" y="0" x="0"/>
+                <properties>
+                    <property value="8081" name="port"/>
+                    <property value="localhost" name="host"/>
+                    <property name="businessEventsLabel"/>
+                    <property name="followRedirects"/>
+                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property name="keep-alive"/>
+                    <property name="contentType"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="password"/>
+                    <property value="request-response" name="exchange-pattern"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property name="ref"/>
+                    <property name="transformer-refs"/>
+                    <property name="httpLabel"/>
+                    <property name="address"/>
+                    <property value="updateF" name="path"/>
+                    <property name="encoding"/>
+                    <property name="responseTransformer-refs"/>
+                    <property name="method"/>
+                    <property name="user"/>
+                    <property name="responseTimeout"/>
+                    <property name="mimeType"/>
+                    <property value="36" name="auxiliary;index"/>
+                    <property name="connector-ref"/>
+                </properties>
+            </endpoint>
             <pattern type="http://www.mulesoft.org/schema/mule/jira/jira-connector" name="get issues" entity-id="Jira#2">
                 <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
-                    <property name=""/>
                     <property name="connectionUser"/>
+                    <property name=""/>
                     <property name="connectionPassword"/>
+                    <property value="project = ION and key = ION-2202" name="jqlSearch"/>
                     <property value="http://www.mulesoft.org/schema/mule/jira/get-issues-from-jql-search" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="project = ION and sprint in (#[message.inboundProperties[&quot;http.query.params&quot;][&quot;sprint&quot;] ]) and type not in (&quot;Task&quot;, &quot;Technical task&quot;) and status not in (&quot;Resolved&quot;)" name="jqlSearch"/>
                     <property value="100" name="maxNumResults"/>
-                    <property value="Jira" name="config-ref"/>
                     <property name="connectionAddress"/>
-                    <property value="36" name="auxiliary;index"/>
+                    <property value="Jira" name="config-ref"/>
+                    <property value="37" name="auxiliary;index"/>
                 </properties>
             </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="Logger" entity-id="Logger#2">
+                <graphicalData height="0" width="0" y="0" x="0"/>
+                <properties>
+                    <property value="#[payload[0].description.replaceAll('\n','&lt;nl&gt;')]" name="message"/>
+                    <property name="category"/>
+                    <property value="INFO" name="level"/>
+                    <property value="38" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <endpoint message-exchange-pattern="OneWay" direction="Outbound" type="http://www.mulesoft.org/schema/mule/ee/jdbc/endpoint" name="Database" entity-id="Database#6">
+                <graphicalData height="0" width="0" y="0" x="0"/>
+                <properties>
+                    <property name=""/>
+                    <property name="businessEventsLabel"/>
+                    <property name="pollingFrequency"/>
+                    <property value="-1" name="queryTimeout"/>
+                    <property name="disableTransportTransformer"/>
+                    <property value="request-response" name="exchange-pattern"/>
+                    <property value="updateFeature" name="queryKey"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property name="ref"/>
+                    <property name="transformer-refs"/>
+                    <property name="address"/>
+                    <property name="encoding"/>
+                    <property name="responseTransformer-refs"/>
+                    <property value="39" name="auxiliary;index"/>
+                    <property name="responseTimeout"/>
+                    <property name="mimeType"/>
+                    <property value="Database" name="connector-ref"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/ee/jdbc/query;0">
+                        <property value="UPDATE tcm.features SET description=#[payload.description] WHERE id=1" name="value"/>
+                        <property value="updateFeature" name="key"/>
+                        <property value="40" name="auxiliary;index"/>
+                        <property value="40" name="auxiliary;wrapIn"/>
+                    </property-collection>
+                </properties>
+            </endpoint>
             <pattern type="http://www.mulesoft.org/schema/mule/json/object-to-json-transformer" name="Object to JSON" entity-id="Object to JSON#5">
                 <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
@@ -548,8 +616,8 @@
                     <property name="ignoreBadInput"/>
                     <property name="encoding"/>
                     <property name="mapper-ref"/>
-                    <property value="37" name="auxiliary;index"/>
                     <property name="mimeType"/>
+                    <property value="41" name="auxiliary;index"/>
                 </properties>
             </pattern>
         </lane>

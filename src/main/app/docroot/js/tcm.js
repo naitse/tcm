@@ -14,9 +14,17 @@
 	   
 	   it_select = $('#release-select').chosen()
 	   
+//	   $('.modal').modal({
+//		   show:false
+//	   });
+	   
 	   getReleases();
 	   
 	   makeResizable()
+	   
+	   
+	  $(window).resize(function() {
+		});	
 	   
        $('#release-select').live({
           change: function(){
@@ -37,7 +45,7 @@
         $('.desc-expander').live({
           click: function(){
         	  expandIssueDescription();
-        	  
+//        	  $('.modal').modal('show')
           }
         })
         $('.desc-collapser').live({
@@ -71,11 +79,38 @@
        
    })
  
+   function proposalPosition(){
+	   
+	   $('#proposed').position({
+			  my:        "bottom",
+			  at:        "bottom",
+			  of:        $(".right-pannel" ), // or $("#otherdiv)
+			  collision: "fit"
+		  })
+   }
+   
  function makeResizable(){
 	   
+ 		$('#desc-wrapper').resizable({
+ 			handles:'s',
+ 			minHeight:100,
+ 			stop:function(){
+				   $( "#desc-container" ).css({
+					   'height':'100%',
+					   'width':'100%'
+				   })
+				    $( this ).css({
+					   'height':((($("#desc-container").height()+40)*100)/$('.container').height())+'%',
+					   'width': '100%'
+				   })
+			   }
+ 		})
+	 
 	   $( "#lp-wrapper" ).resizable({
 		      alsoResize: ".left-pannel",
 		      handles:'e',
+		      minWidth:218,
+		      containment: '#pannel-wrapper',
 			   stop:function(){
 				   $( ".left-pannel" ).css({
 					   'height':'100%',
@@ -85,10 +120,6 @@
 					   'height':'100%',
 					   'width':(($(this).width()*100)/$('.container').width())+'%'
 				   })
-				   
-				   
-				   
-				   
 			   }
 	    });
 	   $( ".left-pannel" ).resizable({
@@ -162,7 +193,7 @@ function expandIssueDescription(){
 	   $('#desc-expander').removeClass('desc-collapser').addClass('desc-expander')
    }
     var releases = {
-    url: 'http://localhost:8081/getDB',  
+    url: '/getDB',  
   
     fetch: function () {
       return $.ajax({
@@ -174,7 +205,7 @@ function expandIssueDescription(){
   };
    
   var features = {
-    url: 'http://localhost:8081/getFeatures?itId=',  
+    url: '/getFeatures?itId=',  
   
     fetch: function (iterationid) {
       return $.ajax({
@@ -186,7 +217,7 @@ function expandIssueDescription(){
   };
    
    var test_cases = {
-		    url: 'http://localhost:8081/getTcs?ftId=',  
+		    url: '/getTcs?ftId=',  
 		  
 		    fetch: function (feature_id) {
 		      return $.ajax({
@@ -198,7 +229,7 @@ function expandIssueDescription(){
    };
 
    var feature_teststats ={
-		    url: 'http://localhost:8081/getFeatureTests?ftId=',  
+		    url: '/getFeatureTests?ftId=',  
 			  
 		    fetch: function (feature_id) {
 		      return $.ajax({
@@ -233,7 +264,6 @@ function getTC(feature_id){
 	
 	test_cases.fetch(feature_id).done(function(data){
 		prepareTCs(data)
-		
 	})
 }   
 function prepareTCs(data){
