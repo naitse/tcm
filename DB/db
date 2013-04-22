@@ -1,0 +1,272 @@
+CREATE DATABASE  IF NOT EXISTS `tcm` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `tcm`;
+-- MySQL dump 10.13  Distrib 5.5.24, for osx10.5 (i386)
+--
+-- Host: 127.0.0.1    Database: tcm
+-- ------------------------------------------------------
+-- Server version	5.1.44
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `features`
+--
+
+DROP TABLE IF EXISTS `features`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `features` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` text,
+  `description` text,
+  `jiraKey` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `features`
+--
+
+LOCK TABLES `features` WRITE;
+/*!40000 ALTER TABLE `features` DISABLE KEYS */;
+INSERT INTO `features` VALUES (1,'Confirm Rolling Redeployment Works for All Workers','Description:\n\nIf you have all the available workers to your subscriptions being in use and you try to add a new application, after the \"Maximum number of workers (0) has been reached\" message if you go to the application deployment page you will notice that all the configuration values such as mule version, the ZIP file and variables are gone.\n\nSteps:\n\npre-requisites:\naccount limited to one worker (it works for any quantity but just for easiest test)\nan application running leaving no available workers.\n\nadd a new application (upload a file and complete all the fields)\n\na message will be displayed informing that the number of workers has been reached \"Maximum number of workers (0) has been reached. Please increase your worker count or contact cloudhub-support@mulesoft.com.\"\n\nclick on the new app name\ngo to deployment page\n\nthe previous configurations are gone (file, muleversion and env variables)\n','ION-2079'),(2,'Set Up Properties Files for all Web Applications','    {\n        \"jiraKey\": \"ION-2079\",\n        \"featureName\": \"Confirm Rolling Redeployment Works for All Workers\",\n        \"featureDescription\": \"Description:\\n\\nIf you have all the available workers to your subscriptions being in use and you try to add a new application, after the \\\"Maximum number of workers (0) has been reached\\\" message if you go to the application deployment page you will notice that all the configuration values such as mule version, the ZIP file and variables are gone.\\n\\nSteps:\\n\\npre-requisites:\\naccount limited to one worker (it works for any quantity but just for easiest test)\\nan application running leaving no available workers.\\n\\nadd a new application (upload a file and complete all the fields)\\n\\na message will be displayed informing that the number of workers has been reached \\\"Maximum number of workers (0) has been reached. Please increase your worker count or contact cloudhub-support@mulesoft.com.\\\"\\n\\nclick on the new app name\\ngo to deployment page\\n\\nthe previous configurations are gone (file, muleversion and env variables)\\n\",\n        \"featureId\": 1\n    }','ION-1682'),(3,'Support OAuth connectors with customer management',NULL,'ION-2037'),(4,'Tenant search UI design',NULL,'ION-2069');
+/*!40000 ALTER TABLE `features` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `features_tcs`
+--
+
+DROP TABLE IF EXISTS `features_tcs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `features_tcs` (
+  `tcId` int(11) NOT NULL,
+  `featureId` int(11) NOT NULL,
+  PRIMARY KEY (`featureId`,`tcId`),
+  KEY `id_idx` (`featureId`),
+  KEY `id_idx1` (`tcId`),
+  CONSTRAINT `idfeatures` FOREIGN KEY (`featureId`) REFERENCES `features` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `idtc` FOREIGN KEY (`tcId`) REFERENCES `tcs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `features_tcs`
+--
+
+LOCK TABLES `features_tcs` WRITE;
+/*!40000 ALTER TABLE `features_tcs` DISABLE KEYS */;
+INSERT INTO `features_tcs` VALUES (1,1),(2,1),(3,1),(4,1);
+/*!40000 ALTER TABLE `features_tcs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `iterations`
+--
+
+DROP TABLE IF EXISTS `iterations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `iterations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `iterations`
+--
+
+LOCK TABLES `iterations` WRITE;
+/*!40000 ALTER TABLE `iterations` DISABLE KEYS */;
+INSERT INTO `iterations` VALUES (1,'35');
+/*!40000 ALTER TABLE `iterations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `iterations_features`
+--
+
+DROP TABLE IF EXISTS `iterations_features`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `iterations_features` (
+  `iterationId` int(11) NOT NULL,
+  `featureId` int(11) NOT NULL,
+  PRIMARY KEY (`iterationId`,`featureId`),
+  KEY `id_idx` (`featureId`),
+  KEY `id_idx1` (`iterationId`),
+  CONSTRAINT `idfeature` FOREIGN KEY (`featureId`) REFERENCES `features` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `iditeration` FOREIGN KEY (`iterationId`) REFERENCES `iterations` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `iterations_features`
+--
+
+LOCK TABLES `iterations_features` WRITE;
+/*!40000 ALTER TABLE `iterations_features` DISABLE KEYS */;
+INSERT INTO `iterations_features` VALUES (1,1),(1,2),(1,3),(1,4);
+/*!40000 ALTER TABLE `iterations_features` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `releases`
+--
+
+DROP TABLE IF EXISTS `releases`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `releases` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `releases`
+--
+
+LOCK TABLES `releases` WRITE;
+/*!40000 ALTER TABLE `releases` DISABLE KEYS */;
+INSERT INTO `releases` VALUES (1,'27'),(2,'28');
+/*!40000 ALTER TABLE `releases` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `releases_iterations`
+--
+
+DROP TABLE IF EXISTS `releases_iterations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `releases_iterations` (
+  `releaseId` int(11) NOT NULL,
+  `iterationId` int(11) NOT NULL,
+  PRIMARY KEY (`releaseId`,`iterationId`),
+  KEY `id_idx` (`iterationId`),
+  KEY `id_idx1` (`releaseId`),
+  CONSTRAINT `iditerations` FOREIGN KEY (`iterationId`) REFERENCES `iterations` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `idrelease` FOREIGN KEY (`releaseId`) REFERENCES `releases` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `releases_iterations`
+--
+
+LOCK TABLES `releases_iterations` WRITE;
+/*!40000 ALTER TABLE `releases_iterations` DISABLE KEYS */;
+INSERT INTO `releases_iterations` VALUES (1,1);
+/*!40000 ALTER TABLE `releases_iterations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `runHistory`
+--
+
+DROP TABLE IF EXISTS `runHistory`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `runHistory` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lastRun` timestamp NULL DEFAULT NULL,
+  `statusId` int(11) NOT NULL,
+  `tcId` int(11) NOT NULL,
+  PRIMARY KEY (`id`,`tcId`,`statusId`),
+  KEY `id_idx` (`tcId`),
+  KEY `id_idx1` (`statusId`),
+  CONSTRAINT `idstatus` FOREIGN KEY (`statusId`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `idtcs` FOREIGN KEY (`tcId`) REFERENCES `tcs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `runHistory`
+--
+
+LOCK TABLES `runHistory` WRITE;
+/*!40000 ALTER TABLE `runHistory` DISABLE KEYS */;
+INSERT INTO `runHistory` VALUES (1,NULL,4,1),(2,NULL,2,2),(3,NULL,3,3),(4,NULL,0,4);
+/*!40000 ALTER TABLE `runHistory` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `status`
+--
+
+DROP TABLE IF EXISTS `status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `status` (
+  `id` int(11) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `status`
+--
+
+LOCK TABLES `status` WRITE;
+/*!40000 ALTER TABLE `status` DISABLE KEYS */;
+INSERT INTO `status` VALUES (0,'Not RUN'),(1,'In Progress'),(2,'Block'),(3,'Failed'),(4,'Pass');
+/*!40000 ALTER TABLE `status` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tcs`
+--
+
+DROP TABLE IF EXISTS `tcs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tcs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` text,
+  `description` text,
+  `proposed` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tcs`
+--
+
+LOCK TABLES `tcs` WRITE;
+/*!40000 ALTER TABLE `tcs` DISABLE KEYS */;
+INSERT INTO `tcs` VALUES (1,'change regions','first deloy to region A then deploy to region',0),(2,'change regions','first deloy to region A then deploy to region',0),(3,'change regions','first deloy to region A then deploy to region',0),(4,'change regions','first deloy to region A then deploy to region B',0);
+/*!40000 ALTER TABLE `tcs` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2013-04-19 21:00:16
