@@ -7,6 +7,8 @@
 	   
 	   getReleases();
 	   
+	   makeResizable()
+	   
        $('#release-select').live({
           change: function(){
               itSelected($(this).find('option:selected'))
@@ -17,10 +19,8 @@
           click: function(){
         	  loadFeatureDesc($(this).data('desc'))
               getTC($(this).attr('feature-id'))
-              $('.right-pannel').show('fast')
-              makeResizable()
-              
-        	  
+              //$('.right-pannel').show('fast')
+             
         	  displayed = true
           }
         })
@@ -64,19 +64,18 @@
  
 function makeResizable(){
 	   
-	   if (displayed == false){
-     	  $('.left-pannel').css('width','30%')
-     	  $('.handle').css('display', 'block')
-       }
+//	   if (displayed == false){
+//     	  $('.left-pannel').css('width','30%')
+//     	  $('.handle').css('display', 'block')
+//       }
  	  
  	  $('.handle').draggable({ 
- 		  axis: "x", 
+ 		  axis: "x",
  			  stop:function(){
  				  var elem = $(this);
  				  var pl = elem.offset().left - elem.parents('body').offset().left - $('.left-pannel').position().left;
  				  //var pl = Math.round((((elem.offset().left - elem.parents('body').offset().left) /*- $('.left-pannel').position().left*/) * 100)/$(document).width()) +'%'
  				  $( ".left-pannel" ).css("width", pl)
- 				  console.log(pl, $( ".left-pannel" ).css("width"))
  				  $(this).position({
  					  my:        "left",
  					  at:        "right",

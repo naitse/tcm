@@ -2,375 +2,159 @@
 <mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="tcm">
     <global-element type="http://www.mulesoft.org/schema/mule/ee/jdbc/mysql-data-source" name="MySQL Data Source" entity-id="MySQL Data Source#1">
         <properties>
+            <property name="port"/>
+            <property name="host"/>
             <property value="MySQL_Data_Source" name="name"/>
-            <property value="1" name="auxiliary;index"/>
+            <property name="loginTimeout"/>
+            <property value="UNSPECIFIED" name="transactionIsolation"/>
             <property value="root" name="user"/>
             <property value="" name="password"/>
+            <property value="1" name="auxiliary;index"/>
             <property value="jdbc:mysql://localhost:3306/tcm" name="url"/>
-            <property value="1" name="auxiliary;index"/>
-            <property value="1" name="auxiliary;index"/>
-            <property value="UNSPECIFIED" name="transactionIsolation"/>
-            <property name="loginTimeout"/>
-            <property name="host"/>
-            <property name="port"/>
             <property name="database"/>
-            <property value="1" name="auxiliary;index"/>
-            <property value="1" name="auxiliary;index"/>
-            <property value="1" name="auxiliary;index"/>
         </properties>
     </global-element>
     <global-element type="http://www.mulesoft.org/schema/mule/ee/jdbc/connector" name="Database" entity-id="Database#1">
         <properties>
-            <property value="Database" name="name"/>
-            <property value="MySQL_Data_Source" name="dataSource-ref to JDBC DataSource"/>
-            <property value="MySQL_Data_Source" name="dataSource-ref to Bean"/>
-            <property value="2" name="auxiliary;index"/>
-            <property value="2" name="auxiliary;index"/>
             <property name="dispatcherPoolFactory-ref"/>
-            <property name="queryRunner-ref"/>
-            <property name="resultSetHandler-ref"/>
-            <property value="2" name="auxiliary;index"/>
-            <property name="dynamicNotification"/>
-            <property value="true" name="validateConnections"/>
             <property name="transactionPerMessage"/>
-            <property value="2" name="auxiliary;index"/>
-            <property value="-1" name="queryTimeout"/>
+            <property name="resultSetHandler-ref"/>
+            <property value="MySQL_Data_Source" name="dataSource-ref to Bean"/>
             <property value="0" name="pollingFrequency"/>
+            <property value="-1" name="queryTimeout"/>
+            <property value="Database" name="name"/>
+            <property value="true" name="validateConnections"/>
+            <property name="dynamicNotification"/>
+            <property name="queryRunner-ref"/>
             <property value="2" name="auxiliary;index"/>
-            <property value="2" name="auxiliary;index"/>
-            <property value="2" name="auxiliary;index"/>
-            <property value="2" name="auxiliary;index"/>
-            <property value="2" name="auxiliary;index"/>
-            <property value="2" name="auxiliary;index"/>
-            <property value="2" name="auxiliary;index"/>
-            <property value="2" name="auxiliary;index"/>
-            <property value="2" name="auxiliary;index"/>
-            <property value="2" name="auxiliary;index"/>
+            <property value="MySQL_Data_Source" name="dataSource-ref to JDBC DataSource"/>
         </properties>
     </global-element>
     <global-element type="http://www.mulesoft.org/schema/mule/jira/config" name="Jira" entity-id="Jira#1">
         <properties>
-            <property value="Jira" name="name"/>
-            <property value="3" name="auxiliary;index"/>
             <property value="dario.carabajal" name="connectionUser"/>
             <property value="welcome2mule" name="connectionPassword"/>
+            <property name="useCustomFieldsExternalName"/>
+            <property value="Jira" name="name"/>
             <property value="http://www.mulesoft.org/jira/rpc/soap/jirasoapservice-v2" name="connectionAddress"/>
             <property value="3" name="auxiliary;index"/>
-            <property name="useCustomFieldsExternalName"/>
-            <property value="3" name="auxiliary;index"/>
-            <property value="3" name="auxiliary;index"/>
-            <property value="3" name="auxiliary;index"/>
-            <property value="3" name="auxiliary;index"/>
-            <property value="3" name="auxiliary;index"/>
-            <property value="3" name="auxiliary;index"/>
-            <property value="3" name="auxiliary;index"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/core/reconnect-forever;0">
+                <property value="20000" name="frequency"/>
+                <property value="5" name="auxiliary;wrapIn"/>
+                <property value="5" name="auxiliary;index"/>
+            </property-collection>
             <property-collection name="@http://www.mulesoft.org/schema/mule/jira/connection-pooling-profile;0">
                 <property value="WHEN_EXHAUSTED_GROW" name="exhaustedAction"/>
                 <property value="4" name="auxiliary;wrapIn"/>
                 <property value="4" name="auxiliary;index"/>
                 <property value="INITIALISE_ONE" name="initialisationPolicy"/>
             </property-collection>
-            <property-collection name="@http://www.mulesoft.org/schema/mule/core/reconnect-forever;0">
-                <property value="20000" name="frequency"/>
-                <property value="5" name="auxiliary;wrapIn"/>
-                <property value="5" name="auxiliary;index"/>
-            </property-collection>
         </properties>
     </global-element>
-    <flow SubFlow="false" name="jira-TL-sync-UI" entity-id="afbd8337-78b3-46ca-9ea9-78e8a4a7058e">
+    <flow SubFlow="false" name="jira-TL-sync-UI" entity-id="550cc0f3-06dd-4d6e-92f1-e70fa0f88be4">
         <properties>
-            <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
-            <property value="6" name="auxiliary;index"/>
+            <property name="processingStrategy2"/>
             <property name="bussinessEventsLabel"/>
+            <property value="6" name="auxiliary;index"/>
             <property name="tracking:enable-default-events"/>
-            <property value="6" name="auxiliary;index"/>
-            <property value="6" name="auxiliary;index"/>
-            <property value="6" name="auxiliary;index"/>
         </properties>
         <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#1">
+            <graphicalData height="0" width="0" y="0" x="0"/>
             <endpoint message-exchange-pattern="RequestResponse" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="HTTP#1">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property value="localhost" name="host"/>
                     <property value="8081" name="port"/>
-                    <property value="tcm" name="path"/>
-                    <property name="method"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
+                    <property value="localhost" name="host"/>
                     <property name="businessEventsLabel"/>
+                    <property name="followRedirects"/>
+                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property name="keep-alive"/>
+                    <property name="contentType"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="password"/>
+                    <property value="request-response" name="exchange-pattern"/>
                     <property name="tracking:enable-default-events"/>
-                    <property value="7" name="auxiliary;index"/>
+                    <property name="ref"/>
+                    <property name="httpLabel"/>
+                    <property name="transformer-refs"/>
                     <property name="address"/>
                     <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
-                    <property name="followRedirects"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property value="localhost" name="host"/>
-                    <property value="8081" name="port"/>
                     <property value="tcm" name="path"/>
+                    <property name="responseTransformer-refs"/>
                     <property name="method"/>
+                    <property name="user"/>
                     <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property name="businessEventsLabel"/>
-                    <property name="tracking:enable-default-events"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property name="address"/>
-                    <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
                     <property name="mimeType"/>
                     <property name="responseTimeout"/>
-                    <property name="followRedirects"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
                     <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property value="localhost" name="host"/>
-                    <property value="8081" name="port"/>
-                    <property value="tcm" name="path"/>
-                    <property name="method"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property name="businessEventsLabel"/>
-                    <property name="tracking:enable-default-events"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property name="address"/>
-                    <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
-                    <property name="followRedirects"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
-                    <property value="7" name="auxiliary;index"/>
                 </properties>
             </endpoint>
             <unknown index="8" description="false" entity-id="unknown#1">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <content>&lt;http:static-resource-handler xmlns:http=&quot;http://www.mulesoft.org/schema/mule/http&quot; resourceBase=&quot;${app.home}/docroot&quot; defaultFile=&quot;index.html&quot;/&gt;</content>
             </unknown>
         </lane>
     </flow>
-    <flow SubFlow="false" name="tcmFlow3" entity-id="0c772a34-f88a-4df8-9841-ed76aaefeabe">
+    <flow SubFlow="false" name="tcmFlow3" entity-id="96df23bf-a6b0-447c-838d-f4dd7c3f6caf">
         <properties>
-            <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
-            <property value="9" name="auxiliary;index"/>
+            <property name="processingStrategy2"/>
             <property name="bussinessEventsLabel"/>
+            <property value="9" name="auxiliary;index"/>
             <property name="tracking:enable-default-events"/>
-            <property value="9" name="auxiliary;index"/>
-            <property value="9" name="auxiliary;index"/>
-            <property value="9" name="auxiliary;index"/>
         </properties>
         <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#2">
+            <graphicalData height="0" width="0" y="0" x="0"/>
             <endpoint message-exchange-pattern="RequestResponse" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="HTTP#2">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property value="localhost" name="host"/>
                     <property value="8081" name="port"/>
-                    <property value="getDB" name="path"/>
-                    <property name="method"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
+                    <property value="localhost" name="host"/>
                     <property name="businessEventsLabel"/>
+                    <property name="followRedirects"/>
+                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property name="keep-alive"/>
+                    <property name="contentType"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="password"/>
+                    <property value="request-response" name="exchange-pattern"/>
                     <property name="tracking:enable-default-events"/>
-                    <property value="10" name="auxiliary;index"/>
+                    <property name="ref"/>
+                    <property name="httpLabel"/>
+                    <property name="transformer-refs"/>
                     <property name="address"/>
                     <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
-                    <property name="followRedirects"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property value="localhost" name="host"/>
-                    <property value="8081" name="port"/>
                     <property value="getDB" name="path"/>
+                    <property name="responseTransformer-refs"/>
                     <property name="method"/>
+                    <property name="user"/>
                     <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property name="businessEventsLabel"/>
-                    <property name="tracking:enable-default-events"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property name="address"/>
-                    <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
                     <property name="mimeType"/>
                     <property name="responseTimeout"/>
-                    <property name="followRedirects"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
                     <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property value="localhost" name="host"/>
-                    <property value="8081" name="port"/>
-                    <property value="getDB" name="path"/>
-                    <property name="method"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property name="businessEventsLabel"/>
-                    <property name="tracking:enable-default-events"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property name="address"/>
-                    <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
-                    <property name="followRedirects"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
-                    <property value="10" name="auxiliary;index"/>
                 </properties>
             </endpoint>
             <endpoint message-exchange-pattern="OneWay" direction="Outbound" type="http://www.mulesoft.org/schema/mule/ee/jdbc/endpoint" name="Database" entity-id="Database#2">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
-                    <property value="one-way" name="exchange-pattern"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="11" name="auxiliary;index"/>
                     <property name=""/>
-                    <property value="getReleasesIterations" name="queryKey"/>
-                    <property value="11" name="auxiliary;index"/>
-                    <property value="11" name="auxiliary;index"/>
-                    <property value="11" name="auxiliary;index"/>
-                    <property value="11" name="auxiliary;index"/>
-                    <property value="11" name="auxiliary;index"/>
                     <property name="businessEventsLabel"/>
-                    <property name="tracking:enable-default-events"/>
-                    <property value="11" name="auxiliary;index"/>
-                    <property name="address"/>
-                    <property name="responseTimeout"/>
-                    <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
-                    <property name="mimeType"/>
-                    <property value="11" name="auxiliary;index"/>
-                    <property value="-1" name="queryTimeout"/>
                     <property name="pollingFrequency"/>
-                    <property value="11" name="auxiliary;index"/>
-                    <property value="11" name="auxiliary;index"/>
-                    <property value="11" name="auxiliary;index"/>
-                    <property value="Database" name="connector-ref"/>
+                    <property value="-1" name="queryTimeout"/>
+                    <property name="disableTransportTransformer"/>
+                    <property value="request-response" name="exchange-pattern"/>
+                    <property value="getReleasesIterations" name="queryKey"/>
+                    <property name="tracking:enable-default-events"/>
                     <property name="ref"/>
                     <property name="transformer-refs"/>
+                    <property name="address"/>
+                    <property name="encoding"/>
                     <property name="responseTransformer-refs"/>
+                    <property name="mimeType"/>
+                    <property name="responseTimeout"/>
                     <property value="11" name="auxiliary;index"/>
-                    <property value="11" name="auxiliary;index"/>
-                    <property value="11" name="auxiliary;index"/>
+                    <property value="Database" name="connector-ref"/>
                     <property-collection name="@http://www.mulesoft.org/schema/mule/ee/jdbc/query;0">
                         <property value="SELECT R.name releaseName, GROUP_CONCAT(I.name) iterationName FROM tcm.releases R&#xA;INNER JOIN tcm.releases_iterations RI ON R.id = RI.releaseId&#xA;INNER JOIN tcm.iterations I ON I.id = RI.IterationId&#xA;GROUP BY releaseName" name="value"/>
                         <property value="12" name="auxiliary;wrapIn"/>
@@ -380,194 +164,87 @@
                 </properties>
             </endpoint>
             <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="Logger" entity-id="Logger#1">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
                     <property value="#[payload]" name="message"/>
-                    <property value="INFO" name="level"/>
                     <property name="category"/>
-                    <property value="13" name="auxiliary;index"/>
-                    <property value="13" name="auxiliary;index"/>
+                    <property value="INFO" name="level"/>
                     <property value="13" name="auxiliary;index"/>
                 </properties>
             </pattern>
             <pattern type="http://www.mulesoft.org/schema/mule/json/object-to-json-transformer" name="Object to JSON" entity-id="Object to JSON#1">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
+                    <property name="sourceClass"/>
                     <property name="returnClass"/>
                     <property name="ignoreBadInput"/>
                     <property name="encoding"/>
+                    <property name="mapper-ref"/>
                     <property value="14" name="auxiliary;index"/>
                     <property name="mimeType"/>
-                    <property value="14" name="auxiliary;index"/>
-                    <property value="14" name="auxiliary;index"/>
-                    <property name="mapper-ref"/>
-                    <property name="sourceClass"/>
-                    <property value="14" name="auxiliary;index"/>
-                    <property value="14" name="auxiliary;index"/>
-                    <property value="14" name="auxiliary;index"/>
                 </properties>
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="tcmFlow4" entity-id="406e9870-0aed-4464-bf51-578c1d71d8be">
+    <flow SubFlow="false" name="tcmFlow4" entity-id="db375066-a0f2-4fd2-b0b8-2db59c0a2211">
         <properties>
-            <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
-            <property value="15" name="auxiliary;index"/>
+            <property name="processingStrategy2"/>
             <property name="bussinessEventsLabel"/>
+            <property value="15" name="auxiliary;index"/>
             <property name="tracking:enable-default-events"/>
-            <property value="15" name="auxiliary;index"/>
-            <property value="15" name="auxiliary;index"/>
-            <property value="15" name="auxiliary;index"/>
         </properties>
         <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#3">
+            <graphicalData height="0" width="0" y="0" x="0"/>
             <endpoint message-exchange-pattern="RequestResponse" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="getFeatures" entity-id="HTTP#3">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property value="localhost" name="host"/>
                     <property value="8081" name="port"/>
-                    <property value="getFeatures" name="path"/>
-                    <property name="method"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
+                    <property value="localhost" name="host"/>
                     <property name="businessEventsLabel"/>
+                    <property name="followRedirects"/>
+                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property name="keep-alive"/>
+                    <property name="contentType"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="password"/>
+                    <property value="request-response" name="exchange-pattern"/>
                     <property name="tracking:enable-default-events"/>
-                    <property value="16" name="auxiliary;index"/>
+                    <property name="ref"/>
+                    <property name="httpLabel"/>
+                    <property name="transformer-refs"/>
                     <property name="address"/>
                     <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
-                    <property name="followRedirects"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property value="localhost" name="host"/>
-                    <property value="8081" name="port"/>
                     <property value="getFeatures" name="path"/>
+                    <property name="responseTransformer-refs"/>
                     <property name="method"/>
+                    <property name="user"/>
                     <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property name="businessEventsLabel"/>
-                    <property name="tracking:enable-default-events"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property name="address"/>
-                    <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
                     <property name="mimeType"/>
                     <property name="responseTimeout"/>
-                    <property name="followRedirects"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
                     <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property value="localhost" name="host"/>
-                    <property value="8081" name="port"/>
-                    <property value="getFeatures" name="path"/>
-                    <property name="method"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property name="businessEventsLabel"/>
-                    <property name="tracking:enable-default-events"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property name="address"/>
-                    <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
-                    <property name="followRedirects"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
-                    <property value="16" name="auxiliary;index"/>
                 </properties>
             </endpoint>
             <endpoint message-exchange-pattern="OneWay" direction="Outbound" type="http://www.mulesoft.org/schema/mule/ee/jdbc/endpoint" name="Database" entity-id="Database#3">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
-                    <property value="one-way" name="exchange-pattern"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="17" name="auxiliary;index"/>
                     <property name=""/>
-                    <property value="getFeatures" name="queryKey"/>
-                    <property value="17" name="auxiliary;index"/>
-                    <property value="17" name="auxiliary;index"/>
-                    <property value="17" name="auxiliary;index"/>
-                    <property value="17" name="auxiliary;index"/>
-                    <property value="17" name="auxiliary;index"/>
                     <property name="businessEventsLabel"/>
-                    <property name="tracking:enable-default-events"/>
-                    <property value="17" name="auxiliary;index"/>
-                    <property name="address"/>
-                    <property name="responseTimeout"/>
-                    <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
-                    <property name="mimeType"/>
-                    <property value="17" name="auxiliary;index"/>
-                    <property value="-1" name="queryTimeout"/>
                     <property name="pollingFrequency"/>
-                    <property value="17" name="auxiliary;index"/>
-                    <property value="17" name="auxiliary;index"/>
-                    <property value="17" name="auxiliary;index"/>
-                    <property value="Database" name="connector-ref"/>
+                    <property value="-1" name="queryTimeout"/>
+                    <property name="disableTransportTransformer"/>
+                    <property value="request-response" name="exchange-pattern"/>
+                    <property value="getFeatures" name="queryKey"/>
+                    <property name="tracking:enable-default-events"/>
                     <property name="ref"/>
                     <property name="transformer-refs"/>
+                    <property name="address"/>
+                    <property name="encoding"/>
                     <property name="responseTransformer-refs"/>
+                    <property name="mimeType"/>
+                    <property name="responseTimeout"/>
                     <property value="17" name="auxiliary;index"/>
-                    <property value="17" name="auxiliary;index"/>
-                    <property value="17" name="auxiliary;index"/>
+                    <property value="Database" name="connector-ref"/>
                     <property-collection name="@http://www.mulesoft.org/schema/mule/ee/jdbc/query;0">
                         <property value="SELECT F.id featureId, F.name featureName, F.description featureDescription, F.jiraKey jiraKey &#xA;FROM tcm.features F&#xA;INNER JOIN tcm.iterations_features ItF ON ItF.featureId = F.id&#xA;inner join tcm.iterations I on I.id = ItF.iterationId&#xA;WHERE I.name = #[groovy:message.getInboundProperty('http.query.params').itId]" name="value"/>
                         <property value="18" name="auxiliary;wrapIn"/>
@@ -577,184 +254,78 @@
                 </properties>
             </endpoint>
             <pattern type="http://www.mulesoft.org/schema/mule/json/object-to-json-transformer" name="Object to JSON" entity-id="Object to JSON#2">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
+                    <property name="sourceClass"/>
                     <property name="returnClass"/>
                     <property name="ignoreBadInput"/>
                     <property name="encoding"/>
+                    <property name="mapper-ref"/>
                     <property value="19" name="auxiliary;index"/>
                     <property name="mimeType"/>
-                    <property value="19" name="auxiliary;index"/>
-                    <property value="19" name="auxiliary;index"/>
-                    <property name="mapper-ref"/>
-                    <property name="sourceClass"/>
-                    <property value="19" name="auxiliary;index"/>
-                    <property value="19" name="auxiliary;index"/>
-                    <property value="19" name="auxiliary;index"/>
                 </properties>
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="tcmFlow5" entity-id="cf55ba0e-e8ad-4787-bc57-dc9a9e7ccbee">
+    <flow SubFlow="false" name="tcmFlow5" entity-id="6566a19f-d168-4d74-8fdf-42338199858f">
         <properties>
-            <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
-            <property value="20" name="auxiliary;index"/>
+            <property name="processingStrategy2"/>
             <property name="bussinessEventsLabel"/>
+            <property value="20" name="auxiliary;index"/>
             <property name="tracking:enable-default-events"/>
-            <property value="20" name="auxiliary;index"/>
-            <property value="20" name="auxiliary;index"/>
-            <property value="20" name="auxiliary;index"/>
         </properties>
         <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#4">
+            <graphicalData height="0" width="0" y="0" x="0"/>
             <endpoint message-exchange-pattern="RequestResponse" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="HTTP#4">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property value="localhost" name="host"/>
                     <property value="8081" name="port"/>
-                    <property value="getTcs" name="path"/>
-                    <property name="method"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
+                    <property value="localhost" name="host"/>
                     <property name="businessEventsLabel"/>
+                    <property name="followRedirects"/>
+                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property name="keep-alive"/>
+                    <property name="contentType"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="password"/>
+                    <property value="request-response" name="exchange-pattern"/>
                     <property name="tracking:enable-default-events"/>
-                    <property value="21" name="auxiliary;index"/>
+                    <property name="ref"/>
+                    <property name="httpLabel"/>
+                    <property name="transformer-refs"/>
                     <property name="address"/>
                     <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
-                    <property name="followRedirects"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property value="localhost" name="host"/>
-                    <property value="8081" name="port"/>
                     <property value="getTcs" name="path"/>
+                    <property name="responseTransformer-refs"/>
                     <property name="method"/>
+                    <property name="user"/>
                     <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property name="businessEventsLabel"/>
-                    <property name="tracking:enable-default-events"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property name="address"/>
-                    <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
                     <property name="mimeType"/>
                     <property name="responseTimeout"/>
-                    <property name="followRedirects"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
                     <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property value="localhost" name="host"/>
-                    <property value="8081" name="port"/>
-                    <property value="getTcs" name="path"/>
-                    <property name="method"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property name="businessEventsLabel"/>
-                    <property name="tracking:enable-default-events"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property name="address"/>
-                    <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
-                    <property name="followRedirects"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
-                    <property value="21" name="auxiliary;index"/>
                 </properties>
             </endpoint>
             <endpoint message-exchange-pattern="OneWay" direction="Outbound" type="http://www.mulesoft.org/schema/mule/ee/jdbc/endpoint" name="Database" entity-id="Database#4">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
-                    <property value="one-way" name="exchange-pattern"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="22" name="auxiliary;index"/>
                     <property name=""/>
-                    <property value="getTCs" name="queryKey"/>
-                    <property value="22" name="auxiliary;index"/>
-                    <property value="22" name="auxiliary;index"/>
-                    <property value="22" name="auxiliary;index"/>
-                    <property value="22" name="auxiliary;index"/>
-                    <property value="22" name="auxiliary;index"/>
                     <property name="businessEventsLabel"/>
-                    <property name="tracking:enable-default-events"/>
-                    <property value="22" name="auxiliary;index"/>
-                    <property name="address"/>
-                    <property name="responseTimeout"/>
-                    <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
-                    <property name="mimeType"/>
-                    <property value="22" name="auxiliary;index"/>
-                    <property value="-1" name="queryTimeout"/>
                     <property name="pollingFrequency"/>
-                    <property value="22" name="auxiliary;index"/>
-                    <property value="22" name="auxiliary;index"/>
-                    <property value="22" name="auxiliary;index"/>
-                    <property value="Database" name="connector-ref"/>
+                    <property value="-1" name="queryTimeout"/>
+                    <property name="disableTransportTransformer"/>
+                    <property value="request-response" name="exchange-pattern"/>
+                    <property value="getTCs" name="queryKey"/>
+                    <property name="tracking:enable-default-events"/>
                     <property name="ref"/>
                     <property name="transformer-refs"/>
+                    <property name="address"/>
+                    <property name="encoding"/>
                     <property name="responseTransformer-refs"/>
+                    <property name="mimeType"/>
+                    <property name="responseTimeout"/>
                     <property value="22" name="auxiliary;index"/>
-                    <property value="22" name="auxiliary;index"/>
-                    <property value="22" name="auxiliary;index"/>
+                    <property value="Database" name="connector-ref"/>
                     <property-collection name="@http://www.mulesoft.org/schema/mule/ee/jdbc/query;0">
                         <property value="SELECT T.id tcId, T.name tcName, T.description tcDescription, T.proposed, S.name statusName, S.id statusId, RH.lastRun &#xA;FROM tcm.tcs T&#xA;INNER JOIN tcm.features_tcs FT ON FT.tcId = T.id&#xA;INNER JOIN tcm.runHistory RH ON T.id = RH.tcId&#xA;INNER JOIN tcm.status S ON S.id = RH.statusId&#xA;where FT.featureId = #[groovy:message.getInboundProperty('http.query.params').ftId]" name="value"/>
                         <property value="23" name="auxiliary;wrapIn"/>
@@ -764,207 +335,95 @@
                 </properties>
             </endpoint>
             <pattern type="http://www.mulesoft.org/schema/mule/json/object-to-json-transformer" name="Object to JSON" entity-id="Object to JSON#3">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
+                    <property name="sourceClass"/>
                     <property name="returnClass"/>
                     <property name="ignoreBadInput"/>
                     <property name="encoding"/>
+                    <property name="mapper-ref"/>
                     <property value="24" name="auxiliary;index"/>
                     <property name="mimeType"/>
-                    <property value="24" name="auxiliary;index"/>
-                    <property value="24" name="auxiliary;index"/>
-                    <property name="mapper-ref"/>
-                    <property name="sourceClass"/>
-                    <property value="24" name="auxiliary;index"/>
-                    <property value="24" name="auxiliary;index"/>
-                    <property value="24" name="auxiliary;index"/>
                 </properties>
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="tcmFlow1" entity-id="7621d45c-f4f9-4f34-8cc4-914a8f75bdb6">
+    <flow SubFlow="false" name="tcmFlow1" entity-id="c79b7d33-0acb-479d-82ca-e054deba3238">
         <properties>
-            <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
-            <property value="25" name="auxiliary;index"/>
+            <property name="processingStrategy2"/>
             <property name="bussinessEventsLabel"/>
+            <property value="25" name="auxiliary;index"/>
             <property name="tracking:enable-default-events"/>
-            <property value="25" name="auxiliary;index"/>
-            <property value="25" name="auxiliary;index"/>
-            <property value="25" name="auxiliary;index"/>
         </properties>
         <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#5">
+            <graphicalData height="0" width="0" y="0" x="0"/>
             <endpoint message-exchange-pattern="RequestResponse" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="HTTP#5">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property value="localhost" name="host"/>
                     <property value="8081" name="port"/>
-                    <property value="getFeatureTests" name="path"/>
-                    <property name="method"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
+                    <property value="localhost" name="host"/>
                     <property name="businessEventsLabel"/>
+                    <property name="followRedirects"/>
+                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property name="keep-alive"/>
+                    <property name="contentType"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="password"/>
+                    <property value="request-response" name="exchange-pattern"/>
                     <property name="tracking:enable-default-events"/>
-                    <property value="26" name="auxiliary;index"/>
+                    <property name="ref"/>
+                    <property name="httpLabel"/>
+                    <property name="transformer-refs"/>
                     <property name="address"/>
                     <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
-                    <property name="followRedirects"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property value="localhost" name="host"/>
-                    <property value="8081" name="port"/>
                     <property value="getFeatureTests" name="path"/>
+                    <property name="responseTransformer-refs"/>
                     <property name="method"/>
+                    <property name="user"/>
                     <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property name="businessEventsLabel"/>
-                    <property name="tracking:enable-default-events"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property name="address"/>
-                    <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
                     <property name="mimeType"/>
                     <property name="responseTimeout"/>
-                    <property name="followRedirects"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
                     <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property value="localhost" name="host"/>
-                    <property value="8081" name="port"/>
-                    <property value="getFeatureTests" name="path"/>
-                    <property name="method"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property name="businessEventsLabel"/>
-                    <property name="tracking:enable-default-events"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property name="address"/>
-                    <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
-                    <property name="followRedirects"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
-                    <property value="26" name="auxiliary;index"/>
                 </properties>
             </endpoint>
             <pattern type="http://www.mulesoft.org/schema/mule/scripting/groovyComponent" name="Groovy" entity-id="Groovy#1">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
+                    <property value="" name="ref"/>
+                    <property value="sleep(1000)" name="text"/>
+                    <property name="updated"/>
                     <property value="27" name="auxiliary;index"/>
-                    <property value="27" name="auxiliary;index"/>
-                    <property value="27" name="auxiliary;index"/>
-                    <property name="script-ref"/>
-                    <property value="27" name="auxiliary;index"/>
-                    <property value="27" name="auxiliary;index"/>
-                    <property value="27" name="auxiliary;index"/>
-                    <property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script-for-properties;0">
-                        <property value="sleep(1000)" name="text"/>
-                        <property value="Groovy" name="engine"/>
-                        <property value="28" name="auxiliary;wrapIn"/>
-                        <property value="28" name="auxiliary;index"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/core/refInterceptorStackType;2092160173">
+                        <property value="" name="ref"/>
                     </property-collection>
-                    <property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script;0">
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script;2015490672">
                         <property value="sleep(1000)" name="text"/>
-                        <property value="Groovy" name="engine"/>
-                        <property value="28" name="auxiliary;wrapIn"/>
                         <property value="28" name="auxiliary;index"/>
                     </property-collection>
                 </properties>
+                <description></description>
             </pattern>
             <endpoint message-exchange-pattern="OneWay" direction="Outbound" type="http://www.mulesoft.org/schema/mule/ee/jdbc/endpoint" name="Database" entity-id="Database#5">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
-                    <property value="one-way" name="exchange-pattern"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="29" name="auxiliary;index"/>
                     <property name=""/>
-                    <property value="getTcsRunned" name="queryKey"/>
-                    <property value="29" name="auxiliary;index"/>
-                    <property value="29" name="auxiliary;index"/>
-                    <property value="29" name="auxiliary;index"/>
-                    <property value="29" name="auxiliary;index"/>
-                    <property value="29" name="auxiliary;index"/>
                     <property name="businessEventsLabel"/>
-                    <property name="tracking:enable-default-events"/>
-                    <property value="29" name="auxiliary;index"/>
-                    <property name="address"/>
-                    <property name="responseTimeout"/>
-                    <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
-                    <property name="mimeType"/>
-                    <property value="29" name="auxiliary;index"/>
-                    <property value="-1" name="queryTimeout"/>
                     <property name="pollingFrequency"/>
-                    <property value="29" name="auxiliary;index"/>
-                    <property value="29" name="auxiliary;index"/>
-                    <property value="29" name="auxiliary;index"/>
-                    <property value="Database" name="connector-ref"/>
+                    <property value="-1" name="queryTimeout"/>
+                    <property name="disableTransportTransformer"/>
+                    <property value="request-response" name="exchange-pattern"/>
+                    <property value="getTcsRunned" name="queryKey"/>
+                    <property name="tracking:enable-default-events"/>
                     <property name="ref"/>
                     <property name="transformer-refs"/>
+                    <property name="address"/>
+                    <property name="encoding"/>
                     <property name="responseTransformer-refs"/>
+                    <property name="mimeType"/>
+                    <property name="responseTimeout"/>
                     <property value="29" name="auxiliary;index"/>
-                    <property value="29" name="auxiliary;index"/>
-                    <property value="29" name="auxiliary;index"/>
+                    <property value="Database" name="connector-ref"/>
                     <property-collection name="@http://www.mulesoft.org/schema/mule/ee/jdbc/query;0">
                         <property value="SELECT (SELECT count(*)&#xA;FROM tcm.features_tcs FT&#xA;INNER JOIN tcm.runHistory RH ON FT.tcId = RH.tcId&#xA;INNER JOIN tcm.status S ON S.id = RH.statusId&#xA;where FT.featureId = #[groovy:message.getInboundProperty('http.query.params').ftId] ) total,&#xA;(SELECT count(*)&#xA;FROM tcm.features_tcs FT&#xA;INNER JOIN tcm.runHistory RH ON FT.tcId = RH.tcId&#xA;INNER JOIN tcm.status S ON S.id = RH.statusId&#xA;where FT.featureId = #[groovy:message.getInboundProperty('http.query.params').ftId] &#xA;and S.id in (2,3,4)&#xA;) run" name="value"/>
                         <property value="30" name="auxiliary;wrapIn"/>
@@ -974,318 +433,123 @@
                 </properties>
             </endpoint>
             <pattern type="http://www.mulesoft.org/schema/mule/json/object-to-json-transformer" name="Object to JSON" entity-id="Object to JSON#4">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
+                    <property name="sourceClass"/>
                     <property name="returnClass"/>
                     <property name="ignoreBadInput"/>
                     <property name="encoding"/>
+                    <property name="mapper-ref"/>
                     <property value="31" name="auxiliary;index"/>
                     <property name="mimeType"/>
-                    <property value="31" name="auxiliary;index"/>
-                    <property value="31" name="auxiliary;index"/>
-                    <property name="mapper-ref"/>
-                    <property name="sourceClass"/>
-                    <property value="31" name="auxiliary;index"/>
-                    <property value="31" name="auxiliary;index"/>
-                    <property value="31" name="auxiliary;index"/>
                 </properties>
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="jira-get-iterations" entity-id="9ac0b29e-5d4d-4b0c-8dc2-0968b2720a76">
+    <flow SubFlow="false" name="jira-get-iterations" entity-id="d99929b4-f7de-422b-a957-e1bcaed5b0bf">
         <properties>
-            <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
-            <property value="32" name="auxiliary;index"/>
+            <property name="processingStrategy2"/>
             <property name="bussinessEventsLabel"/>
+            <property value="32" name="auxiliary;index"/>
             <property name="tracking:enable-default-events"/>
-            <property value="32" name="auxiliary;index"/>
-            <property value="32" name="auxiliary;index"/>
-            <property value="32" name="auxiliary;index"/>
         </properties>
         <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#6">
+            <graphicalData height="0" width="0" y="0" x="0"/>
             <endpoint message-exchange-pattern="RequestResponse" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="HTTP#6">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property value="localhost" name="host"/>
                     <property value="8081" name="port"/>
-                    <property value="jiraSprints" name="path"/>
-                    <property name="method"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
+                    <property value="localhost" name="host"/>
                     <property name="businessEventsLabel"/>
+                    <property name="followRedirects"/>
+                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property name="keep-alive"/>
+                    <property name="contentType"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="password"/>
+                    <property value="request-response" name="exchange-pattern"/>
                     <property name="tracking:enable-default-events"/>
-                    <property value="33" name="auxiliary;index"/>
+                    <property name="ref"/>
+                    <property name="httpLabel"/>
+                    <property name="transformer-refs"/>
                     <property name="address"/>
                     <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
-                    <property name="followRedirects"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property value="localhost" name="host"/>
-                    <property value="8081" name="port"/>
                     <property value="jiraSprints" name="path"/>
+                    <property name="responseTransformer-refs"/>
                     <property name="method"/>
+                    <property name="user"/>
                     <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property name="businessEventsLabel"/>
-                    <property name="tracking:enable-default-events"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property name="address"/>
-                    <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
                     <property name="mimeType"/>
                     <property name="responseTimeout"/>
-                    <property name="followRedirects"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
                     <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property value="localhost" name="host"/>
-                    <property value="8081" name="port"/>
-                    <property value="jiraSprints" name="path"/>
-                    <property name="method"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property name="businessEventsLabel"/>
-                    <property name="tracking:enable-default-events"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property name="address"/>
-                    <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
-                    <property name="followRedirects"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
-                    <property value="33" name="auxiliary;index"/>
                 </properties>
             </endpoint>
             <endpoint message-exchange-pattern="RequestResponse" direction="Outbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="HTTP#7">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="request-response" name="exchange-pattern"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property name="host"/>
                     <property name="port"/>
-                    <property name="path"/>
-                    <property value="GET" name="method"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
+                    <property name="host"/>
                     <property name="businessEventsLabel"/>
+                    <property value="true" name="followRedirects"/>
+                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property name="keep-alive"/>
+                    <property value="application/json" name="contentType"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="password"/>
+                    <property value="request-response" name="exchange-pattern"/>
                     <property name="tracking:enable-default-events"/>
-                    <property value="34" name="auxiliary;index"/>
+                    <property name="ref"/>
+                    <property name="httpLabel"/>
+                    <property name="transformer-refs"/>
                     <property value="http://dario.carabajal:welcome2mule@www.mulesoft.org/jira/rest/greenhopper/1.0/sprints/53" name="address"/>
                     <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
-                    <property value="true" name="followRedirects"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="application/json" name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property name="host"/>
-                    <property name="port"/>
                     <property name="path"/>
+                    <property name="responseTransformer-refs"/>
                     <property value="GET" name="method"/>
+                    <property name="user"/>
                     <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property name="businessEventsLabel"/>
-                    <property name="tracking:enable-default-events"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="http://dario.carabajal:welcome2mule@www.mulesoft.org/jira/rest/greenhopper/1.0/sprints/53" name="address"/>
-                    <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
                     <property name="mimeType"/>
                     <property name="responseTimeout"/>
-                    <property value="true" name="followRedirects"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
                     <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="application/json" name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property name="httpLabel"/>
-                    <property name="host"/>
-                    <property name="port"/>
-                    <property name="path"/>
-                    <property value="GET" name="method"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property name="businessEventsLabel"/>
-                    <property name="tracking:enable-default-events"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="http://dario.carabajal:welcome2mule@www.mulesoft.org/jira/rest/greenhopper/1.0/sprints/53" name="address"/>
-                    <property name="encoding"/>
-                    <property name="disableTransportTransformer"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
-                    <property value="true" name="followRedirects"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property name="connector-ref"/>
-                    <property name="ref"/>
-                    <property name="transformer-refs"/>
-                    <property name="responseTransformer-refs"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property name="user"/>
-                    <property name="password"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="application/json" name="contentType"/>
-                    <property name="keep-alive"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
-                    <property value="34" name="auxiliary;index"/>
                 </properties>
             </endpoint>
         </lane>
     </flow>
-    <flow SubFlow="false" name="jira-get-issues" entity-id="ebd37c45-cbc6-4177-af3a-9e8b4fc15052">
+    <flow SubFlow="false" name="jira-get-issues" entity-id="caa0214f-9cad-41f4-91c9-d6175e832429">
         <properties>
-            <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
-            <property value="35" name="auxiliary;index"/>
+            <property name="processingStrategy2"/>
             <property name="bussinessEventsLabel"/>
+            <property value="35" name="auxiliary;index"/>
             <property name="tracking:enable-default-events"/>
-            <property value="35" name="auxiliary;index"/>
-            <property value="35" name="auxiliary;index"/>
-            <property value="35" name="auxiliary;index"/>
         </properties>
         <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#7">
+            <graphicalData height="0" width="0" y="0" x="0"/>
             <pattern type="http://www.mulesoft.org/schema/mule/jira/jira-connector" name="get issues" entity-id="Jira#2">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
-                    <property value="Jira" name="config-ref"/>
-                    <property value="http://www.mulesoft.org/schema/mule/jira/get-issues-from-jql-search" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="Jira" name="config-ref"/>
-                    <property value="36" name="auxiliary;index"/>
-                    <property value="project = ION and sprint in (#[message.inboundProperties[&quot;http.query.params&quot;][&quot;sprint&quot;] ]) and type not in (&quot;Task&quot;, &quot;Technical task&quot;) and status not in (&quot;Resolved&quot;)" name="jqlSearch"/>
-                    <property value="100" name="maxNumResults"/>
-                    <property value="36" name="auxiliary;index"/>
-                    <property value="36" name="auxiliary;index"/>
                     <property name=""/>
                     <property name="connectionUser"/>
                     <property name="connectionPassword"/>
+                    <property value="http://www.mulesoft.org/schema/mule/jira/get-issues-from-jql-search" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="project = ION and sprint in (#[message.inboundProperties[&quot;http.query.params&quot;][&quot;sprint&quot;] ]) and type not in (&quot;Task&quot;, &quot;Technical task&quot;) and status not in (&quot;Resolved&quot;)" name="jqlSearch"/>
+                    <property value="100" name="maxNumResults"/>
+                    <property value="Jira" name="config-ref"/>
                     <property name="connectionAddress"/>
-                    <property value="36" name="auxiliary;index"/>
-                    <property value="36" name="auxiliary;index"/>
-                    <property value="36" name="auxiliary;index"/>
-                    <property value="36" name="auxiliary;index"/>
-                    <property value="36" name="auxiliary;index"/>
-                    <property value="36" name="auxiliary;index"/>
                     <property value="36" name="auxiliary;index"/>
                 </properties>
             </pattern>
             <pattern type="http://www.mulesoft.org/schema/mule/json/object-to-json-transformer" name="Object to JSON" entity-id="Object to JSON#5">
+                <graphicalData height="0" width="0" y="0" x="0"/>
                 <properties>
+                    <property name="sourceClass"/>
                     <property name="returnClass"/>
                     <property name="ignoreBadInput"/>
                     <property name="encoding"/>
+                    <property name="mapper-ref"/>
                     <property value="37" name="auxiliary;index"/>
                     <property name="mimeType"/>
-                    <property value="37" name="auxiliary;index"/>
-                    <property value="37" name="auxiliary;index"/>
-                    <property name="mapper-ref"/>
-                    <property name="sourceClass"/>
-                    <property value="37" name="auxiliary;index"/>
-                    <property value="37" name="auxiliary;index"/>
-                    <property value="37" name="auxiliary;index"/>
                 </properties>
             </pattern>
         </lane>
