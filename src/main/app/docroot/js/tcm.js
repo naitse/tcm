@@ -94,18 +94,25 @@
  		$('#desc-wrapper').resizable({
  			handles:'s',
  			minHeight:100,
+ 			alsoResize: "#desc-container",
  			stop:function(){
 				   $( "#desc-container" ).css({
-					   'height':'100%',
+					   'height':$('#desc-wrapper').height()-20,
 					   'width':'100%'
-				   })
-				    $( this ).css({
-					   'height':((($("#desc-container").height()+40)*100)/$('.container').height())+'%',
-					   'width': '100%'
 				   })
 			   }
  		})
 	 
+ 			   $( "#desc-container" ).resizable({
+		   ghost: true,
+		   handles:'s',
+			   stop:function(){
+
+			   }
+			   
+		   });
+ 		
+ 		
 	   $( "#lp-wrapper" ).resizable({
 		      alsoResize: ".left-pannel",
 		      handles:'e',
@@ -184,12 +191,18 @@ function _makeResizable(){
    
   //var domain = window.location.href
 function expandIssueDescription(){
-	   $('#desc-container').show('fast')
+	$('#desc-wrapper').show('fast',function(){
+//		$( "#desc-container" ).css({
+//			   'height':$('#desc-wrapper').height()-20,
+//			   'width':'100%'
+//		   })
+	})
+	
 	   $('#desc-expander').removeClass('desc-expander').addClass('desc-collapser')
    }
    
    function collapsIssueDescription(){
-	   $('#desc-container').hide('fast')
+	   $('#desc-wrapper').hide('fast')
 	   $('#desc-expander').removeClass('desc-collapser').addClass('desc-expander')
    }
     var releases = {
@@ -324,7 +337,7 @@ function clearData(){
 	$('#feature-container').children().remove()
 	$('#desc-container').children().remove()
 	$('#desc-container').text('');
-	$('#desc-container').hide()
+	$('#desc-wrapper').hide()
 	$('#tc-container').children().remove()
 }
 
