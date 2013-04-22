@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:jira="http://www.mulesoft.org/schema/mule/jira" xmlns:jdbc-ee="http://www.mulesoft.org/schema/mule/ee/jdbc" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/ee/jdbc http://www.mulesoft.org/schema/mule/ee/jdbc/current/mule-jdbc-ee.xsd 
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd 
+http://www.mulesoft.org/schema/mule/jira http://www.mulesoft.org/schema/mule/jira/2.0/mule-jira.xsd 
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd ">
+    <jdbc-ee:mysql-data-source name="MySQL_Data_Source" user="root" password="" url="jdbc:mysql://localhost:3306/tcm" transactionIsolation="UNSPECIFIED" doc:name="MySQL Data Source"/>
+    <jdbc-ee:connector name="Database" dataSource-ref="MySQL_Data_Source" validateConnections="true" queryTimeout="-1" pollingFrequency="0" doc:name="Database"/>
+      <jira:config name="Jira" connectionUser="dario.carabajal" connectionPassword="welcome2mule" connectionAddress="http://www.mulesoft.org/jira/rpc/soap/jirasoapservice-v2" doc:name="Jira">
+        <jira:connection-pooling-profile initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
+        <reconnect-forever frequency="20000"/>
+    </jira:config>
+    <flow name="jira-TL-sync-UI" doc:name="jira-TL-sync-UI">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="tcm" doc:name="HTTP"/>
+        <http:static-resource-handler resourceBase="${app.home}/docroot" defaultFile="index.html"></http:static-resource-handler>
+    </flow>
+    <flow name="tcmFlow3" doc:name="tcmFlow3">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="getDB" doc:name="HTTP"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="getReleasesIterations" queryTimeout="-1" connector-ref="Database" doc:name="Database">
+            <jdbc-ee:query key="getReleasesIterations" value="SELECT R.name releaseName, GROUP_CONCAT(I.name) iterationName FROM tcm.releases R
+INNER JOIN tcm.releases_iterations RI ON R.id = RI.releaseId
+INNER JOIN tcm.iterations I ON I.id = RI.IterationId
+GROUP BY releaseName"/>
+        </jdbc-ee:outbound-endpoint>
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+    <flow name="tcmFlow4" doc:name="tcmFlow4">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="getFeatures" doc:name="getFeatures"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="getFeatures" queryTimeout="-1" connector-ref="Database" doc:name="Database">
+            <jdbc-ee:query key="getFeatures" value="SELECT F.id featureId, F.name featureName, F.description featureDescription, F.jiraKey jiraKey 
+FROM tcm.features F
+INNER JOIN tcm.iterations_features ItF ON ItF.featureId = F.id
+inner join tcm.iterations I on I.id = ItF.iterationId
+WHERE I.name = #[groovy:message.getInboundProperty('http.query.params').itId]"/>
+        </jdbc-ee:outbound-endpoint>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+    <flow name="tcmFlow5" doc:name="tcmFlow5">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="getTcs" doc:name="HTTP"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="getTCs" queryTimeout="-1" connector-ref="Database" doc:name="Database">
+            <jdbc-ee:query key="getTCs" value="SELECT T.id tcId, T.name tcName, T.description tcDescription, T.proposed, S.name statusName, S.id statusId, RH.lastRun 
+FROM tcm.tcs T
+INNER JOIN tcm.features_tcs FT ON FT.tcId = T.id
+INNER JOIN tcm.runHistory RH ON T.id = RH.tcId
+INNER JOIN tcm.status S ON S.id = RH.statusId
+where FT.featureId = #[groovy:message.getInboundProperty('http.query.params').ftId]"/>
+        </jdbc-ee:outbound-endpoint>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+    <flow name="tcmFlow1" doc:name="tcmFlow1">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="getFeatureTests" doc:name="HTTP"/>
+        <scripting:component doc:name="Groovy">
+            <scripting:script engine="Groovy"><![CDATA[sleep(1000)]]></scripting:script>
+        </scripting:component>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="getTcsRunned" queryTimeout="-1" connector-ref="Database" doc:name="Database">
+            <jdbc-ee:query key="getTcsRunned" value="SELECT (SELECT count(*)
+FROM tcm.features_tcs FT
+INNER JOIN tcm.runHistory RH ON FT.tcId = RH.tcId
+INNER JOIN tcm.status S ON S.id = RH.statusId
+where FT.featureId = #[groovy:message.getInboundProperty('http.query.params').ftId] ) total,
+(SELECT count(*)
+FROM tcm.features_tcs FT
+INNER JOIN tcm.runHistory RH ON FT.tcId = RH.tcId
+INNER JOIN tcm.status S ON S.id = RH.statusId
+where FT.featureId = #[groovy:message.getInboundProperty('http.query.params').ftId] 
+and S.id in (2,3,4)
+) run"/>
+        </jdbc-ee:outbound-endpoint>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+    <flow name="jira-get-iterations" doc:name="jira-get-iterations">
+    <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="jiraSprints" doc:name="HTTP"/>
+        <http:outbound-endpoint exchange-pattern="request-response"   doc:name="HTTP" method="GET" address="http://dario.carabajal:welcome2mule@www.mulesoft.org/jira/rest/greenhopper/1.0/sprints/53" followRedirects="true" contentType="application/json">
+        </http:outbound-endpoint>
+    </flow>
+        <flow name="jira-get-issues" doc:name="jira-get-issues">
+        <jira:get-issues-from-jql-search config-ref="Jira" jqlSearch="project = ION and sprint in (#[message.inboundProperties[&quot;http.query.params&quot;][&quot;sprint&quot;] ]) and type not in (&quot;Task&quot;, &quot;Technical task&quot;) and status not in (&quot;Resolved&quot;)" maxNumResults="100" doc:name="get issues"/>
+	  <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+</mule>
