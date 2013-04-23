@@ -166,14 +166,15 @@ border-bottom: 1px solid black;
 	border:1px solid #8695A8;
 }
 .tc-status.notrun{
-	background:url("images/pd-wp-icon-gray.png") no-repeat;
+	background:url("images/sleep.png") no-repeat;
 	background-position: center;
-	background-color: #F5D1D2;
+	background-color: #B1BBC8;
+	opacity: 0.7;
 }
 .tc-status.inprogress{
 	background:url("images/status_inprogress.gif") no-repeat;
 	background-position: center;
-	
+/* background-color: #e4f5d1; */
 }
 .tc-status.block{
 	background:url("images/warning_sm.png") no-repeat;
