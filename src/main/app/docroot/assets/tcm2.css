@@ -17,7 +17,6 @@ html {
   padding-top: 20px;
   font-family: "CambridgeRound","Helvetica Neue",Helvetica,Arial,sans-serif;
 color: #454545;
-font-weight: bold;
   }
 
   .container{
@@ -76,6 +75,8 @@ box-shadow: inset 0px 0px 15px -3px black;
  height: 28px;
  border-bottom: 1px solid #6C7885;
 background: #B1BBC8;
+font-weight:bold;
+overflow:hidden;
  }
 .desc-expander{
 	background:url("images/item_open.png");
@@ -94,7 +95,7 @@ margin-top: 7px;
 }
 
 .desc-header-text{
-	font-size: 13;
+	font-size: 12;
 top: -2px;
 position: relative;
 }
@@ -270,7 +271,7 @@ top: -13px;
 }
 
 .stats .bar{
-border: 1px solid #6C7885;
+/* border: 1px solid #6C7885; */
 }
 .loading-small{
 	background:url("images/LoadingIcon.gif");
@@ -291,6 +292,7 @@ overflow: hidden;
  height: 28px;
  border-bottom: 1px solid #6C7885;
 background: #E8E9EC;
+overflow: hidden;
  }
  
 .tc-description{
@@ -370,7 +372,7 @@ background-position: center;
 
 
 /***************************/
-/**/
+
 
 .feature .summary {
 margin-top: 3px;
@@ -378,7 +380,7 @@ margin-left: 62px;
 overflow: hidden;
 float: left;
 position: relative;
-top: -44px;
+top: -47px;
 z-index: 0;
 border-radius: 6px;
 padding-left: 10px;
@@ -420,6 +422,8 @@ height: 51px;
 overflow: hidden;
 margin-left: 2px;
 padding-left: 0px;
+font-weight: bold;
+margin-bottom: 1px;
 }
 .stats .count {
 width: 40px;
@@ -440,9 +444,53 @@ border:none;
 }
 
 .stats .bar {
-/* border:none; */
 background: #F7F8F9;
 }
 
-/**/
+
+
+
+.tc-description {
+width: 90%;
+margin-left: 28px;
+float: left;
+position: relative;
+top: 13px;
+line-height: 0;
+padding-left: 0px;
+}
+
+.tc-stats {
+width: 20px;
+height: 20px;
+float: right;
+position: relative;
+top: 6px;
+}
+
+
+.left-pannel{
+	width:100%;
+}
+
+#lp-wrapper{
+	width:30%;
+	height:100%;
+	float:left;
+	margin-right: 5px;
+	padding-right: 2px;
+}
+
+.ui-resizable-e{
+		height:100%;
+	float:left;
+	width:5px;
+	width: 9px;
+background: url("images/dots-vertical.png") no-repeat;
+background-position: center;
+}
+
+.left-pannel .ui-resizable-e{
+	right:-50px;
+}
 /**************************/

@@ -1,6 +1,15 @@
    var it_select;
    var prefix = '';
    var displayed = false;
+   
+   String.prototype.trunc = 
+	   function(n,useWordBoundary){
+       var toLong = this.length>n,
+           s_ = toLong ? this.substr(0,n-1) : this;
+       s_ = useWordBoundary && toLong ? s_.substr(0,s_.lastIndexOf(' ')) : s_;
+       return  toLong ? s_ + '...' : s_;
+    };
+	      
    $("document").ready(function(){
 	   
 	   it_select = $('#release-select').chosen()
@@ -62,13 +71,30 @@
        
    })
  
-function makeResizable(){
+ function makeResizable(){
 	   
-//	   if (displayed == false){
-//     	  $('.left-pannel').css('width','30%')
-//     	  $('.handle').css('display', 'block')
-//       }
- 	  
+	   $( "#lp-wrapper" ).resizable({
+		      alsoResize: ".left-pannel",
+		      handles:'e',
+			   stop:function(){
+				   $( ".left-pannel" ).css({
+					   'height':'100%',
+					   'width':'100%'
+				   })
+			   }
+	    });
+	   $( ".left-pannel" ).resizable({
+		   ghost: true,
+		   handles:'e',
+			   stop:function(){
+
+			   }
+		   
+	   });
+   }  
+   
+function _makeResizable(){
+	   
  	  $('.handle').draggable({ 
  		  axis: "x",
  			  stop:function(){
@@ -104,7 +130,8 @@ function makeResizable(){
 		    });
 	   prob.css({
 		   'width': '40px',
-		   'height': '12'
+		   'height': '12',
+		   'border': '1px solid #6C7885'
 	   }).find('.ui-progressbar-value').css({
 		   'border-color': '#8695A8',
 		   'background':'#B1BBC8'
@@ -235,42 +262,19 @@ function prepareTCs(data){
 		  statusClass = ''
 		}
 		
-		
-//		<div class="tc">
-//		<div class="wrapper">
-//			<div class="tc-expander ds"></div>
-//			<div class="tc-description ds">first deloy to region A then
-//			deploy to region
-//			</div>
-//			<div class="tc-stats ds">
-//				<div class="tc-status pass" status="4" title="Pass"></div>
-//			</div>
-//		</div>
-//		<div class="tc-steps" style="display: none;">
-//		</div>
-//	</div>
-		
+	
 		
     	var tc = $('<div>').addClass('tc').attr('tc-id',this.tcId)
     	var wrapper = $('<div>').addClass('wrapper')
     	var expander = $('<div>').addClass('tc-expander ds')
-    	var description = $('<div>').addClass('tc-description ds').text(this.tcName)
+    	var description = $('<div>').addClass('tc-description ds').text(this.tcName.trunc(100,false))
     	var stats = $('<div>').addClass('tc-stats ds')
     	var status = $('<div>').addClass('tc-status '+ statusClass).attr('status', this.statusId).attr('title', this.statusName)
     	var steps = $('<div>').addClass('tc-steps').text(this.tcDescription).css('display','none');
     	
     	$(stats).append(status)
-    	$(wrapper).append(expander,description,stats)
+    	$(wrapper).append(description,expander, stats)
     	$(tc).append(wrapper,steps)
-    	
-//    	var tctoolbar = $('<div>').addClass('tc-header')
-//    	var tcname = $('<div>').addClass('tc-name')
-//    	var tcstatus = $('<div>').addClass('tc-status '+ statusClass).attr('status', this.statusId).attr('title', this.statusName)
-//    	var tc_description = $('<div>').addClass('tc-description').text(this.tcDescription);
-//    	$(tctoolbar).append(tcname)
-//    	$(tctoolbar).append(tcstatus)
-//    	$(tc).append(tctoolbar)
-//    	$(tc).append(tc_description)
     	
     	renderTC(tc)
     	
