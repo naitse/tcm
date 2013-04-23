@@ -156,21 +156,39 @@ border-bottom: 1px solid black;
 /* 	top: -22px; */
 /* position: relative; */
 	margin-right: 5px;
+	background-position: center;
+	border-radius: .296em;
+	-webkit-border-radius: .296em;
+	-moz-border-radius: .296em;
+	-ms-border-radius: .296em;
+	-o-border-radius: .296em;
+	background-repeat: no-repeat;
+	border:1px solid #8695A8;
 }
 .tc-status.notrun{
-	background:url("images/pd-wp-icon-gray.png");
+	background:url("images/pd-wp-icon-gray.png") no-repeat;
+	background-position: center;
+	background-color: #F5D1D2;
 }
 .tc-status.inprogress{
-	background:url("images/status_inprogress.gif");
+	background:url("images/status_inprogress.gif") no-repeat;
+	background-position: center;
+	
 }
 .tc-status.block{
-	background:url("images/attention.png");
+	background:url("images/warning_sm.png") no-repeat;
+	background-position: center;
+	background-color: #FFF6D7;
 }
 .tc-status.failed{
-	background:url("images/priority_blocker.gif");
+	background:url("images/x_sm.png")  no-repeat;
+	background-position: center;
+	background-color: #F5D1D2;
 }
 .tc-status.pass{
-	background:url("images/test-pass-icon.png");
+	background:url("images/check_sm.png") no-repeat;
+background-color: #e4f5d1;
+background-position: center;
 }
 
 .tc-description{
