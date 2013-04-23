@@ -81,6 +81,14 @@
 					   'height':'100%',
 					   'width':'100%'
 				   })
+				    $( this ).css({
+					   'height':'100%',
+					   'width':(($(this).width()*100)/$('.container').width())+'%'
+				   })
+				   
+				   
+				   
+				   
 			   }
 	    });
 	   $( ".left-pannel" ).resizable({
