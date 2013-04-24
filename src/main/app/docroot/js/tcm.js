@@ -55,7 +55,7 @@
       							type: "POST",
       							cache:false,
       							url: this.url.add,
-      							data:JSON.stringify(req)
+      							data:JSON.stringify(req),
       							dataType: "json"
       						});
       			    }
@@ -195,7 +195,8 @@
         
         $('.modal .cancel').live({
         	click: function(){
-        		$(this).parents('.modal').find('.close').click()
+        		$(this).parents('.modal').find('.close-modal').click()
+        		$(this).parents('.modal').find('.alert').addClass('hide')
         	}
         })
         
@@ -396,58 +397,64 @@ function prepareTCs(data){
 //		        "lastRun": null,
 //		        "proposed": false
 //		    },
-		
-		switch(this.statusId)
-		{
-		case 0:
-			statusClass = 'notrun'
-			statusIcon = 'icon-off icon-white '
-				
-		  break;
-		case 1:
-			statusClass = 'inprogress'
-				statusIcon = 'icon-hand-right '
-		  break;
-		case 2:
-			statusClass = 'block'
-				statusIcon = 'icon-exclamation-sign '
-		  break;
-		case 3:
-			statusClass = 'failed'
-				statusIcon = 'icon-thumbs-down icon-white '
-		  break;
-		case 4:
-			statusClass = 'pass'
-				statusIcon = 'icon-thumbs-up icon-white '
-		  break;
-		default:
-		  statusClass = ''
-			  statusIcon = 'icon-hand-right icon-white '
-		}
-		
-    	var tc = $('<div>').addClass('tc').attr('tc-id',this.tcId)
-    	var wrapper = $('<div>').addClass('wrapper')
-    	var expander = $('<div>').addClass('tc-expander ds')
-    	var description = $('<div>').addClass('tc-description ds').text(this.tcName.trunc(100,false))
-    	var stats = $('<div>').addClass('tc-stats ds')
-    		var btn_group = $('<div class="btn-group">')
-    		var toggle = $('<a class="btn dropdown-toggle btn-inverse btn-mini ddm-'+statusClass+'" data-toggle="dropdown" href="#">').append($('<i class="'+statusIcon+'" style="margin-top: 2px;"></i>'),$('<span class="caret"></span>'))
-    		var list = $('<ul class="dropdown-menu pull-right">')
-    		var nodes = $('<li class="ddm-notrun"><i class="icon-off"></i> Not Run </li><li class="ddm-inprogress"><i class="icon-hand-right"></i> In Progress </li><li class="ddm-block"><i class="icon-exclamation-sign"></i> Blocked </li><li class="ddm-failed"><i class="icon-thumbs-down"></i> Fail </li><li class="ddm-pass"><i class="icon-thumbs-up"></i> Pass </li>')
-//    	var status = $('<div>').addClass('tc-status '+ statusClass).attr('status', this.statusId).attr('title', this.statusName)
-    	var steps = $('<div>').addClass('tc-steps').text(this.tcDescription).css('display','none');
-    	
-    	$(list).append(nodes)
-    	$(btn_group).append(toggle, list)
-    	$(stats).append(btn_group)
-    	$(wrapper).append(description,expander, stats)
-    	$(tc).append(wrapper,steps)
-    	
-    	renderTC(tc)
+		createTcHTML(this)
+
     	
     })
 	
 }   
+
+function createTcHTML(tcObject){
+	
+	switch(tcObject.statusId)
+	{
+	case 0:
+		statusClass = 'notrun'
+		statusIcon = 'icon-off icon-white '
+			
+	  break;
+	case 1:
+		statusClass = 'inprogress'
+			statusIcon = 'icon-hand-right '
+	  break;
+	case 2:
+		statusClass = 'block'
+			statusIcon = 'icon-exclamation-sign '
+	  break;
+	case 3:
+		statusClass = 'failed'
+			statusIcon = 'icon-thumbs-down icon-white '
+	  break;
+	case 4:
+		statusClass = 'pass'
+			statusIcon = 'icon-thumbs-up icon-white '
+	  break;
+	default:
+	  statusClass = ''
+		  statusIcon = 'icon-hand-right icon-white '
+	}
+	
+	var tc = $('<div>').addClass('tc').attr('tc-id',tcObject.tcId)
+	var wrapper = $('<div>').addClass('wrapper')
+	var expander = $('<div>').addClass('tc-expander ds')
+	var description = $('<div>').addClass('tc-description ds').text(tcObject.tcName.trunc(100,false))
+	var stats = $('<div>').addClass('tc-stats ds')
+		var btn_group = $('<div class="btn-group">')
+		var toggle = $('<a class="btn dropdown-toggle btn-inverse btn-mini ddm-'+statusClass+'" data-toggle="dropdown" href="#">').append($('<i class="'+statusIcon+'" style="margin-top: 2px;"></i>'),$('<span class="caret"></span>'))
+		var list = $('<ul class="dropdown-menu pull-right">')
+		var nodes = $('<li class="ddm-notrun"><i class="icon-off"></i> Not Run </li><li class="ddm-inprogress"><i class="icon-hand-right"></i> In Progress </li><li class="ddm-block"><i class="icon-exclamation-sign"></i> Blocked </li><li class="ddm-failed"><i class="icon-thumbs-down"></i> Fail </li><li class="ddm-pass"><i class="icon-thumbs-up"></i> Pass </li>')
+//	var status = $('<div>').addClass('tc-status '+ statusClass).attr('status', this.statusId).attr('title', this.statusName)
+	var steps = $('<div>').addClass('tc-steps').text(tcObject.tcDescription).css('display','none');
+	
+	$(list).append(nodes)
+	$(btn_group).append(toggle, list)
+	$(stats).append(btn_group)
+	$(wrapper).append(description,expander, stats)
+	$(tc).append(wrapper,steps)
+	
+	renderTC(tc)
+	
+}
 
 function clearData(){
 	$('#feature-container').children().remove()
@@ -527,6 +534,8 @@ function renderTC(tc){
 
 function saveTc(modal){
 	
+	$(modal).find('.alert').addClass('hide')
+	
 	var title = $(modal).find('.new-tc-title').val()
 	var desc = $(modal).find('.new-tc-desc').val()
 	var feature= $('.active').attr('feature-id')
@@ -545,10 +554,19 @@ function saveTc(modal){
 		proposed:proposed
 	}
 	
-	test_cases.add(req)
 	console.log(JSON.stringify(req))
+	test_cases.add(req).done(function(){
+		$(modal).modal('hide')
+		test_cases.fetch(feature).done(function(data){
+			$(data).each(function(){
+				if($('.tc[tc-id="'+this.tcId+'"]').size() = 0){
+					createTcHTML(this);
+				}
+			})
+		})
+	}).fail(function(){
+		$(modal).find('.alert').removeClass('hide')
+	})
 	
-	
-//	$(modal).modal('hide')
-	
+
 }

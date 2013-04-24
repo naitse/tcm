@@ -677,4 +677,7 @@ margin-right: 3px;
 	box-shadow: inset 0px 0px 12px -3px red !important;
 	
 }
+.alert {
+padding: 8px 141px 8px 14px !important;
+}
 /**************************/
