@@ -101,7 +101,7 @@
 		stop : function() {
 			$("#desc-container").css({
 				'height' : $('#desc-wrapper').height() - 20,
-				'width' : '100%'
+				'width' : (($("#desc-container").width() * 100) / $('.tcm-container').width()) + '%'  //'100%'
 			})
 			$(".right-pannel").css({
 				'padding-bottom' : $('#desc-wrapper').height() + 29
@@ -127,8 +127,7 @@
 			})
 			$(this).css({
 						'height' : '100%',
-						'width' : (($(this).width() * 100) / $(
-								'.tcm-container').width()) + '%'
+						'width' : (($(this).width() * 100) / $('.tcm-container').width()) + '%'
 			});
 		}
 	});
