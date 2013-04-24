@@ -46,16 +46,21 @@
         	  loadFeatureDesc($(this).data('desc'))
               getTC($(this).attr('feature-id'))
               //$('.right-pannel').show('fast')
-     		 $( ".right-pannel" ).css({
-			   'padding-bottom':$('#desc-wrapper').height()+29
-		   })
+     		 
+              if($('#desc-wrapper').height() != 100){
+		              $( ".right-pannel" ).css({
+					   'padding-bottom':$('#desc-wrapper').height()+29
+				   })
+              }
         	  displayed = true
           }
         })
 
         $('.desc-expander').live({
           click: function(){
-        	  expandIssueDescription();
+        	  if($('.feature').size() != 0){
+            	  expandIssueDescription();
+            	  }
 //        	  $('.modal').modal('show')
           }
         })
@@ -199,7 +204,13 @@ function expandIssueDescription(){
 		 $( ".right-pannel" ).css({
 			   'padding-bottom':$('#desc-wrapper').height()+29
 		   })
+		   var wc = 100 - ((($('#desc-wrapper').outerWidth() * 100) / ($('#description').outerWidth() - 20)) - 100)
+		   
+		   $("#desc-container").css({
+			   'width' : wc + '%'  //'100%'
+		   })
 	})
+	
 	
 	   $('#desc-expander').removeClass('desc-expander').addClass('desc-collapser')
    }
