@@ -6,6 +6,7 @@ html {
   z-index: 50;
   background-position: initial initial;
   background-repeat: initial initial;
+  overflow:hidden;
   }
   body{
     width:100%;
@@ -19,7 +20,16 @@ html {
 color: #454545;
   }
 
-  .container{
+pre {
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+ word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+  .tcm-container{
+  overflow: hidden;
+  min-width: 320px;
   border: 2px solid #8695A8;
 /*   box-shadow: inset -1px -1px 1px 0px #232326; */
   box-sizing: border-box;
@@ -49,6 +59,7 @@ box-shadow: inset 0px 0px 12px -3px black;
   width: 69%;
   float:right;
   overflow-y: auto;
+  padding-bottom: 29px;
   }
   .toolbar{
     background: #B1BBC8;
@@ -129,6 +140,18 @@ font-size: 12;
 	border-radius:6px;
 	height:10px;
 	border-bottom:1px solid black;
+}
+
+#tc-container{
+height: 100%;
+overflow: hidden;
+overflow-y: auto;
+}
+
+#feature-container{
+height: 100%;
+overflow: hidden;
+overflow-y: auto;
 }
 
 .tc{
@@ -495,6 +518,7 @@ top: 6px;
 
 .left-pannel{
 	width:100%;
+	padding-bottom: 29px;
 }
 
 #lp-wrapper{
@@ -533,5 +557,9 @@ box-shadow: rgba(69,69,69,0.667) 0 0 6px inset;
 
 .left-pannel .ui-resizable-e{
 	right:-50px;
+}
+
+::-webkit-scrollbar {
+      width: 0px;
 }
 /**************************/

@@ -22,6 +22,7 @@
 	   
 	   makeResizable()
 	   
+//	   adjustContainers()
 	   
 	  $(window).resize(function() {
 		});	
@@ -37,7 +38,9 @@
         	  loadFeatureDesc($(this).data('desc'))
               getTC($(this).attr('feature-id'))
               //$('.right-pannel').show('fast')
-             
+     		 $( ".right-pannel" ).css({
+			   'padding-bottom':$('#desc-wrapper').height()+29
+		   })
         	  displayed = true
           }
         })
@@ -79,64 +82,56 @@
        
    })
  
-   function proposalPosition(){
-	   
-	   $('#proposed').position({
-			  my:        "bottom",
-			  at:        "bottom",
-			  of:        $(".right-pannel" ), // or $("#otherdiv)
-			  collision: "fit"
-		  })
-   }
+   function adjustContainers(){
+	   var fc = $('#feature-container').height() -$('.toolbar').height();
+	   fc=(fc*100)/$('.left-pannel').height() + '%'
+	   $('#feature-container').css('height',fc)
+	   var tcc = $('#tc-container').height() - $('.desc-header').height();
+	   $('#tc-container').css('height',tcc)
+	   }
    
  function makeResizable(){
 	   
- 		$('#desc-wrapper').resizable({
- 			handles:'s',
- 			minHeight:100,
- 			alsoResize: "#desc-container",
- 			stop:function(){
-				   $( "#desc-container" ).css({
-					   'height':$('#desc-wrapper').height()-20,
-					   'width':'100%'
-				   })
-			   }
- 		})
-	 
- 			   $( "#desc-container" ).resizable({
-		   ghost: true,
-		   handles:'s',
-			   stop:function(){
 
-			   }
-			   
-		   });
+	$('#desc-wrapper').resizable({
+		handles : 's',
+		minHeight : 100,
+		alsoResize : "#desc-container",
+
+		stop : function() {
+			$("#desc-container").css({
+				'height' : $('#desc-wrapper').height() - 20,
+				'width' : '100%'
+			})
+			$(".right-pannel").css({
+				'padding-bottom' : $('#desc-wrapper').height() + 29
+			})
+		}
+	})
+
+	$("#desc-container").resizable({
+		ghost : true,
+		handles : 's'
+	});
  		
  		
-	   $( "#lp-wrapper" ).resizable({
-		      alsoResize: ".left-pannel",
-		      handles:'e',
-		      minWidth:218,
-		      containment: '#pannel-wrapper',
-			   stop:function(){
-				   $( ".left-pannel" ).css({
-					   'height':'100%',
-					   'width':'100%'
-				   })
-				    $( this ).css({
-					   'height':'100%',
-					   'width':(($(this).width()*100)/$('.container').width())+'%'
-				   })
-			   }
-	    });
-	   $( ".left-pannel" ).resizable({
-		   ghost: true,
-		   handles:'e',
-			   stop:function(){
 
-			   }
-		   
-	   });
+   $("#lp-wrapper").resizable({
+		handles : 'e',
+		minWidth : 218,
+		containment : '#pannel-wrapper',
+		stop : function() {
+			$("#feature-container").css({
+				'height' : '100%',
+				'width' : '100%'
+			})
+			$(this).css({
+						'height' : '100%',
+						'width' : (($(this).width() * 100) / $(
+								'.tcm-container').width()) + '%'
+			});
+		}
+	});
    }  
    
 function _makeResizable(){
@@ -192,17 +187,20 @@ function _makeResizable(){
   //var domain = window.location.href
 function expandIssueDescription(){
 	$('#desc-wrapper').show('fast',function(){
-//		$( "#desc-container" ).css({
-//			   'height':$('#desc-wrapper').height()-20,
-//			   'width':'100%'
-//		   })
+		 $( ".right-pannel" ).css({
+			   'padding-bottom':$('#desc-wrapper').height()+29
+		   })
 	})
 	
 	   $('#desc-expander').removeClass('desc-expander').addClass('desc-collapser')
    }
    
    function collapsIssueDescription(){
-	   $('#desc-wrapper').hide('fast')
+	   $('#desc-wrapper').hide('fast',function(){
+			 $( ".right-pannel" ).css({
+				   'padding-bottom':29
+			   })
+	   })
 	   $('#desc-expander').removeClass('desc-collapser').addClass('desc-expander')
    }
     var releases = {
@@ -338,6 +336,7 @@ function clearData(){
 	$('#desc-container').children().remove()
 	$('#desc-container').text('');
 	$('#desc-wrapper').hide()
+	$('#desc-expander').removeClass('desc-collapser').addClass('desc-expander')
 	$('#tc-container').children().remove()
 }
 
