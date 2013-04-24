@@ -1,7 +1,8 @@
    var it_select;
    var prefix = '';
    var displayed = false;
-   
+   var backend = '';
+   var proposed=0;
    String.prototype.trunc = 
 	   function(n,useWordBoundary){
        var toLong = this.length>n,
@@ -9,20 +10,84 @@
        s_ = useWordBoundary && toLong ? s_.substr(0,s_.lastIndexOf(' ')) : s_;
        return  toLong ? s_ + '...' : s_;
     };
-	      
+
+    
+    (function($){
+    	  $.event.special.destroyed = {
+    	    remove: function(o) {
+    	      if (o.handler) {
+    	        o.handler()
+    	      }
+    	    }
+    	  }
+    	})(jQuery)
+    
+    	
+    var features = {
+    	    url: backend +'/getFeatures?itId=',  
+    	  
+    	    fetch: function (iterationid) {
+    	      return $.ajax({
+    					type: "GET",
+    					cache:false,
+    					url: this.url + iterationid,
+    					dataType: "json"
+    				});
+    	    }
+    	  };
+    	   
+    	   var test_cases = {
+    			    url: {
+    			    	get:backend +'/getTcs?ftId=',
+    			    	add:backend +'/addTcs',
+    			    },  
+    			  
+    			    fetch: function (feature_id) {
+    			      return $.ajax({
+    							type: "GET",
+    							cache:false,
+    							url: this.url.get + feature_id,
+    							dataType: "json"
+    						});
+    			    },
+    			    add: function (req) {
+      			      return $.ajax({
+      							type: "POST",
+      							cache:false,
+      							url: this.url.add,
+      							data:JSON.stringify(req)
+      							dataType: "json"
+      						});
+      			    }
+    	   };
+
+    	   var feature_teststats ={
+    			    url: backend +'/getFeatureTests?ftId=',  
+    				  
+    			    fetch: function (feature_id) {
+    			      return $.ajax({
+    							type: "GET",
+    							cache:false,
+    							url: this.url + feature_id,
+    							dataType: "json"
+    						});
+    			    }   
+    	  
+    	   }    
+    
+    
    $("document").ready(function(){
 	   
 	   it_select = $('#release-select').chosen()
 	   
-//	   $('.modal').modal({
-//		   show:false
-//	   });
+	   $('.modal').modal({
+		   show:false
+	   });
 	   
 	   getReleases();
 	   
 	   makeResizable()
 	   
-//	   adjustContainers()
 	   
 	  $(window).resize(function() {
 		  
@@ -32,8 +97,9 @@
 			$("#desc-container").css({
 				'width' : wc + '%'  //'100%'
 			})
-		  
+
 		});	
+	   
 	   
        $('#release-select').live({
           change: function(){
@@ -43,16 +109,30 @@
         
         $('.feature').live({
           click: function(){
+        	  $('.feature').removeClass('active');
+        	  $(this).addClass('active');
         	  loadFeatureDesc($(this).data('desc'))
+        	  $('.add-tc').attr('disabled',false)
               getTC($(this).attr('feature-id'))
-              //$('.right-pannel').show('fast')
      		 
-              if($('#desc-wrapper').height() != 100){
-		              $( ".right-pannel" ).css({
-					   'padding-bottom':$('#desc-wrapper').height()+29
+              $('#desc-wrapper').css({
+				   'height':100
 				   })
-              }
+		      $( ".right-pannel" ).css({
+					   'padding-bottom':29
+				   })
+				   
+				   		   var wc = 100 - ((($('#desc-wrapper').outerWidth() * 100) / ($('#description').outerWidth() - 20)) - 100)
+		   
+		   $("#desc-container").css({
+			   'width' : wc + '%',  //'100%'
+			   'height' : '80'
+		   })
+              
         	  displayed = true
+          },
+          destroyed: function(){
+        	  console.log('no ta')
           }
         })
 
@@ -61,7 +141,6 @@
         	  if($('.feature').size() != 0){
             	  expandIssueDescription();
             	  }
-//        	  $('.modal').modal('show')
           }
         })
         $('.desc-collapser').live({
@@ -70,12 +149,15 @@
         	  
           }
         })
-        $('.refresh-icon').live({
+        $('.icon-refresh').live({
           click: function(){
         	  $(this).addClass('refreshing');
         	  clearData()
         	  collapsIssueDescription();
         	  getReleases();
+          },
+          hover:function(){
+        	  $(this).toggleClass('icon-white')
           }
         })
         
@@ -92,9 +174,49 @@
         	  $(this).removeClass('tc-collapse').addClass('tc-expander');
           }
         })
+        
+        $('.dropdown-menu > li').live({
+        	click: function(){
+        		var newState = $('<i class="'+$(this).children('i').attr('class')+'" style="margin-top: 2px;"></i>')
+        		var caret = $('<span class="caret"></span>')
+        		$(this).parents('.btn-group').find('.dropdown-toggle').removeClass(function (index, css) {
+        		    return (css.match (/\bddm-\S+/g) || []).join(' ')
+        		}).addClass($(this).attr('class')).text('').append(newState, caret)
+        	}
+        })
+
+		 $('.proposed').live('change', function(){
+		    if($(this).is(':checked')){
+		        proposed=1;
+		    } else {
+		    	proposed=0;
+		    }
+		});
+        
+        $('.modal .cancel').live({
+        	click: function(){
+        		$(this).parents('.modal').find('.close').click()
+        	}
+        })
+        
+         $('.modal .save').live({
+        	click: function(){
+        		saveTc($(this).parents('.modal'))
+        	}
+        })
        
    })
- 
+
+   function adjustFF(first){
+	   
+	   var fooNotNull = (first === true) ? 90 : 70;
+	   
+	   var w = $(window).height() - 70;
+   	   
+	   w=(w*100)/$(window).height() + '%'
+	   console.log(w, $('.tcm-container').height())
+	   	   $('html').css('height',w)
+   }
    function adjustContainers(){
 	   var fc = $('#feature-container').height() -$('.toolbar').height();
 	   fc=(fc*100)/$('.left-pannel').height() + '%'
@@ -235,42 +357,7 @@ function expandIssueDescription(){
     }
   };
    
-  var features = {
-    url: '/getFeatures?itId=',  
-  
-    fetch: function (iterationid) {
-      return $.ajax({
-				type: "GET",
-				url: this.url + iterationid,
-				dataType: "json"
-			});
-    }
-  };
-   
-   var test_cases = {
-		    url: '/getTcs?ftId=',  
-		  
-		    fetch: function (feature_id) {
-		      return $.ajax({
-						type: "GET",
-						url: this.url + feature_id,
-						dataType: "json"
-					});
-		    }
-   };
 
-   var feature_teststats ={
-		    url: '/getFeatureTests?ftId=',  
-			  
-		    fetch: function (feature_id) {
-		      return $.ajax({
-						type: "GET",
-						url: this.url + feature_id,
-						dataType: "json"
-					});
-		    }   
-  
-   }
    
 function getReleases(){
 	releases.fetch().done(function(data){
@@ -287,7 +374,7 @@ function getReleases(){
 			$('#release-select').append(optionG)
 		})
 		$('#release-select').trigger("liszt:updated")
-		$('.refresh-icon').removeClass('refreshing')
+		$('.icon-refresh').removeClass('refreshing')
 	});
 }   
 
@@ -314,34 +401,45 @@ function prepareTCs(data){
 		{
 		case 0:
 			statusClass = 'notrun'
+			statusIcon = 'icon-off icon-white '
+				
 		  break;
 		case 1:
 			statusClass = 'inprogress'
+				statusIcon = 'icon-hand-right '
 		  break;
 		case 2:
 			statusClass = 'block'
+				statusIcon = 'icon-exclamation-sign '
 		  break;
 		case 3:
 			statusClass = 'failed'
+				statusIcon = 'icon-thumbs-down icon-white '
 		  break;
 		case 4:
 			statusClass = 'pass'
+				statusIcon = 'icon-thumbs-up icon-white '
 		  break;
 		default:
 		  statusClass = ''
+			  statusIcon = 'icon-hand-right icon-white '
 		}
-		
-	
 		
     	var tc = $('<div>').addClass('tc').attr('tc-id',this.tcId)
     	var wrapper = $('<div>').addClass('wrapper')
     	var expander = $('<div>').addClass('tc-expander ds')
     	var description = $('<div>').addClass('tc-description ds').text(this.tcName.trunc(100,false))
     	var stats = $('<div>').addClass('tc-stats ds')
-    	var status = $('<div>').addClass('tc-status '+ statusClass).attr('status', this.statusId).attr('title', this.statusName)
+    		var btn_group = $('<div class="btn-group">')
+    		var toggle = $('<a class="btn dropdown-toggle btn-inverse btn-mini ddm-'+statusClass+'" data-toggle="dropdown" href="#">').append($('<i class="'+statusIcon+'" style="margin-top: 2px;"></i>'),$('<span class="caret"></span>'))
+    		var list = $('<ul class="dropdown-menu pull-right">')
+    		var nodes = $('<li class="ddm-notrun"><i class="icon-off"></i> Not Run </li><li class="ddm-inprogress"><i class="icon-hand-right"></i> In Progress </li><li class="ddm-block"><i class="icon-exclamation-sign"></i> Blocked </li><li class="ddm-failed"><i class="icon-thumbs-down"></i> Fail </li><li class="ddm-pass"><i class="icon-thumbs-up"></i> Pass </li>')
+//    	var status = $('<div>').addClass('tc-status '+ statusClass).attr('status', this.statusId).attr('title', this.statusName)
     	var steps = $('<div>').addClass('tc-steps').text(this.tcDescription).css('display','none');
     	
-    	$(stats).append(status)
+    	$(list).append(nodes)
+    	$(btn_group).append(toggle, list)
+    	$(stats).append(btn_group)
     	$(wrapper).append(description,expander, stats)
     	$(tc).append(wrapper,steps)
     	
@@ -353,6 +451,7 @@ function prepareTCs(data){
 
 function clearData(){
 	$('#feature-container').children().remove()
+	$('.add-tc').attr('disabled',true)
 	$('#desc-container').children().remove()
 	$('#desc-container').text('');
 	$('#desc-wrapper').hide()
@@ -424,62 +523,32 @@ function renderTC(tc){
 	$('#tc-container').append(tc);
 	
 }
-   li_class = 'tree-li';
-   ul_class = 'tree-ul'
 
-    function genTree(domNode){
-      var parentObj = []
-      
-      $(domNode).find('> li, > ul > li').each(function(){
-        var childrenMap = []
 
-        if($(this).find('ul').size() > 0){
-          $(this).find('ul > li').each(function(){
-            temchildrenMap = {
-              name: $(this).attr('name')
-            }
-
-            childrenMap.push(temchildrenMap)
-
-          })
-     
-        }
-
-        temMap = {
-          name: $(this).attr('name'),
-          children: childrenMap
-        }
-        parentObj.push(temMap);
-
-      });
-
-      console.log(JSON.stringify(parentObj));
-    }
-
-    function setTree(element,json){
-      var jsonString = '[{"name":"mod uno","children":[{"name":"TC a mod"},{"name":"TC b mod"}]},{"name":"mod dos","children":[]}]';
-      var json = JSON.parse(jsonString)
-      $(element).children().remove();
-      $(json).each(function(index){
-        var node = $('<li/>', {
-                          class: li_class,
-                          name: this.name,
-                          text: this.name
-                      })
-        if($(this.children).size() > 0){
-          var ulchild = $('<ul/>',{
-            class: ul_class + " hide"
-          })
-          $(this.children).each(function(){
-            var childNode = $('<li/>', {
-                          class: li_class,
-                          name: this.name,
-                          text: this.name
-                        })
-            $(ulchild).append(childNode);
-          })
-          $(node).append(ulchild);
-        }
-        $(element).append(node)
-      })
-    }
+function saveTc(modal){
+	
+	var title = $(modal).find('.new-tc-title').val()
+	var desc = $(modal).find('.new-tc-desc').val()
+	var feature= $('.active').attr('feature-id')
+	
+	if (jQuery.trim($('.modal').find('.new-tc-title').val()).length <= 0){
+		$(modal).find('.new-tc-title').addClass('title-error')
+		return false
+	}else{
+		$(modal).find('.new-tc-title').removeClass('title-error')
+	}
+	
+	var req = {
+		feature:feature,
+		name:title,
+		description:desc,
+		proposed:proposed
+	}
+	
+	test_cases.add(req)
+	console.log(JSON.stringify(req))
+	
+	
+//	$(modal).modal('hide')
+	
+}
