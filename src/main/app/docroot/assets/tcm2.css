@@ -37,7 +37,7 @@ pre {
         box-sizing: border-box;
   overflow: hidden;
   min-width: 320px;
-  border: 2px solid #8695A8;
+  border: 2px solid #ccc;
 /*   box-shadow: inset -1px -1px 1px 0px #232326; */
   box-sizing: border-box;
   width: 95%;
@@ -54,7 +54,7 @@ pre {
     -ms-box-sizing: border-box;
      -o-box-sizing: border-box;
         box-sizing: border-box;
-border: 1px solid #8695A8;
+border: 1px solid #ccc;
 box-shadow: inset 0px 0px 12px -3px black;
   box-sizing: border-box;
   height: 100%;
@@ -69,7 +69,7 @@ box-shadow: inset 0px 0px 12px -3px black;
     -ms-box-sizing: border-box;
      -o-box-sizing: border-box;
         box-sizing: border-box;
-border: 1px solid #8695A8;
+border: 1px solid #ccc;
 box-shadow: inset 0px 0px 12px -3px black;
   box-sizing: border-box;
   height: 100%;
@@ -79,7 +79,7 @@ box-shadow: inset 0px 0px 12px -3px black;
   padding-bottom: 29px;
   }
   .toolbar{
-    background: #B1BBC8;
+    background: white;
 /*     padding: 10px 10px 10px 10px; */
     border-bottom: 1px solid #6C7885;
     border-radius: 6px 6px 0px 0px;
@@ -101,8 +101,8 @@ box-shadow: inset 0px 0px 12px -3px black;
 
  .desc-header{
  height: 28px;
- border-bottom: 1px solid #6C7885;
-background: #B1BBC8;
+ border-bottom: 1px solid #ccc;
+background: white;
 font-weight:bold;
 overflow:hidden;
  }
@@ -277,7 +277,7 @@ margin-left: auto;
 margin-right: auto;
 margin-bottom: 8px;
 background: white;
-border: 2px solid #8695A8;
+border: 2px solid #ccc;
 font-size: 15;
 padding: 5px;
 }
@@ -346,14 +346,14 @@ top: -17px;
 .tc{
 	font-size: 13;
 background-color: rgba(232,233,236,0.296);
-border-bottom: 1px solid #6C7885;
+border-bottom: 1px solid #ccc;
 /* overflow: hidden; */
 }
 
 .tc .wrapper{
  height: 28px;
- border-bottom: 1px solid #6C7885;
-background: #E8E9EC;
+/*  border-bottom: 1px solid #6C7885; */
+background: white;
 /* overflow: hidden; */
  }
  
@@ -614,7 +614,7 @@ box-shadow: rgba(69,69,69,0.667) 0 0 6px inset;
 	float: right;
 	position: relative;
 	top: 3px;
-	right: 3px;
+	right: 8px;
 	}
 .dropdown-menu{ 
  	min-width: 60px; */
@@ -665,7 +665,11 @@ text-shadow:0;
 	width:20px;
 	height:20px;
 }
-
+.icon-refresh:hover{
+	webkit-box-shadow: inset 0px 0px 6px -3px skyblue !important;
+	moz-box-shadow: inset 0px 0px 6px -3px skyblue !important;
+	box-shadow: inset 0px 0px 6px -3px skyblue !important;
+}
 .add-tc{
 	float: right;
 margin-top: 3px;
@@ -680,4 +684,6 @@ margin-right: 3px;
 .alert {
 padding: 8px 141px 8px 14px !important;
 }
+
+
 /**************************/

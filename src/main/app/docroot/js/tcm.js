@@ -1,7 +1,7 @@
    var it_select;
    var prefix = '';
    var displayed = false;
-   var backend = '';
+   var backend = 'http://tcm-backend.cloudhub.io/api/';
    var proposed=0;
    String.prototype.trunc = 
 	   function(n,useWordBoundary){
@@ -24,7 +24,7 @@
     
     	
     var features = {
-    	    url: backend +'/getFeatures?itId=',  
+    	    url: backend +'features?itId=',  
     	  
     	    fetch: function (iterationid) {
     	      return $.ajax({
@@ -38,7 +38,7 @@
     	   
     	   var test_cases = {
     			    url: {
-    			    	get:backend +'/getTcs?ftId=',
+    			    	get:backend +'features/testcases?ftId=',
     			    	add:backend +'/addTcs',
     			    },  
     			  
@@ -62,7 +62,7 @@
     	   };
 
     	   var feature_teststats ={
-    			    url: backend +'/getFeatureTests?ftId=',  
+    			    url: backend +'features/executedtestcases?ftId=',  
     				  
     			    fetch: function (feature_id) {
     			      return $.ajax({
@@ -155,9 +155,6 @@
         	  clearData()
         	  collapsIssueDescription();
         	  getReleases();
-          },
-          hover:function(){
-        	  $(this).toggleClass('icon-white')
           }
         })
         
@@ -347,7 +344,7 @@ function expandIssueDescription(){
 	   $('#desc-expander').removeClass('desc-collapser').addClass('desc-expander')
    }
     var releases = {
-    url: '/getDB',  
+    url: backend + 'releases_iterations',  
   
     fetch: function () {
       return $.ajax({
