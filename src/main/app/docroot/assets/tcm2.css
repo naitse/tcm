@@ -55,7 +55,8 @@ pre {
      -o-box-sizing: border-box;
         box-sizing: border-box;
 border: 1px solid #ccc;
-box-shadow: inset 0px 0px 12px -3px black;
+box-shadow: inset 0px 0px 8px -3px black;
+-moz-box-shadow: 0 0 6px -3px black inset;
   box-sizing: border-box;
   height: 100%;
   width: 30%;
@@ -70,7 +71,8 @@ box-shadow: inset 0px 0px 12px -3px black;
      -o-box-sizing: border-box;
         box-sizing: border-box;
 border: 1px solid #ccc;
-box-shadow: inset 0px 0px 12px -3px black;
+box-shadow: inset 0px 0px 8px -3px black;
+-moz-box-shadow: 0 0 6px -3px black inset;
   box-sizing: border-box;
   height: 100%;
   width: 69%;
@@ -180,7 +182,7 @@ background-image: -o-linear-gradient(top,rgba(255,255,255,0.667),rgba(153,153,15
 background-image: -ms-linear-gradient(top,rgba(255,255,255,0.667),rgba(153,153,153,0.198));
 background-image: linear-gradient(top,rgba(255,255,255,0.667),rgba(153,153,153,0.198));
 	
-border: 1px solid;
+/* border: 1px solid; */
 }
 
 .tc-header{
@@ -403,12 +405,13 @@ overflow-y: auto;
 box-shadow: 0px 1px 12px 0px black inset;
 
 clear: both;
--webkit-box-shadow: rgba(69,69,69,0.667) 0 0 6px inset;
--moz-box-shadow: rgba(69,69,69,0.667) 0 0 6px inset;
-box-shadow: rgba(69,69,69,0.667) 0 0 6px inset;
-background: #F7F8F9;
+-webkit-box-shadow: rgba(69,69,69,0.667) 0 1px 3px inset;
+-moz-box-shadow: rgba(69,69,69,0.667) 0 1px 3px inset;
+box-shadow: rgba(69,69,69,0.667) 0 1px 3px inset;
+background: white;
 padding: 10px;
-font-size: 12;	
+font-size: 12;
+margin:1px;
 }
 
 #pannel-wrapper{
@@ -471,7 +474,7 @@ width: 44px;
 height: 14px;
 float: none;
 position: relative;
-top: 12px;
+top: 9px;
 left: 11px;
 }
 
@@ -571,9 +574,9 @@ background-position: center;
 background-color:white;
 margin-bottom: 5px;
 box-shadow: 0px 1px 12px 0px black inset;
--webkit-box-shadow: rgba(69,69,69,0.667) 0 0 6px inset;
--moz-box-shadow: rgba(69,69,69,0.667) 0 0 6px inset;
-box-shadow: rgba(69,69,69,0.667) 0 0 6px inset;
+-webkit-box-shadow: rgba(69,69,69,0.667) 0 0 1px inset;
+-moz-box-shadow: rgba(69,69,69,0.667) 0 0 1px inset;
+box-shadow: rgba(69,69,69,0.667) 0 0 1px inset;
 }
 
 .left-pannel .ui-resizable-e{
@@ -613,7 +616,7 @@ box-shadow: rgba(69,69,69,0.667) 0 0 6px inset;
 	height: auto;
 	float: right;
 	position: relative;
-	top: 3px;
+	top: 5px;
 	right: 8px;
 	}
 .dropdown-menu{ 
