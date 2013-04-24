@@ -25,6 +25,14 @@
 //	   adjustContainers()
 	   
 	  $(window).resize(function() {
+		  
+		  
+			var wc = 100 - ((($('#desc-wrapper').outerWidth() * 100) / ($('#description').outerWidth() - 20)) - 100)
+			
+			$("#desc-container").css({
+				'width' : wc + '%'  //'100%'
+			})
+		  
 		});	
 	   
        $('#release-select').live({
@@ -99,9 +107,11 @@
 		alsoResize : "#desc-container",
 
 		stop : function() {
+			var wc = 100 - ((($('#desc-wrapper').outerWidth() * 100) / ($('#description').outerWidth() - 20)) - 100)
+			
 			$("#desc-container").css({
 				'height' : $('#desc-wrapper').height() - 20,
-				'width' : (($("#desc-container").width() * 100) / $('.tcm-container').width()) + '%'  //'100%'
+				'width' : wc + '%'  //'100%'
 			})
 			$(".right-pannel").css({
 				'padding-bottom' : $('#desc-wrapper').height() + 29
