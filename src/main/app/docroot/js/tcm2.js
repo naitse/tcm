@@ -227,7 +227,21 @@
 //	   }
    
  function makeResizable(){
-	   
+    		   $('#rp-wrapper').resizable({
+    				handles : 'w',
+//    				minWidth : 218,
+//    				containment : '#pannel-wrapper',
+    				stop : function() {
+//    					$("#feature-container").css({
+//    						'height' : '100%',
+//    						'width' : '100%'
+//    					})
+//    					$(this).css({
+//    								'height' : '100%',
+//    								'width' : (($(this).width() * 100) / $('.tcm-container').width()) + '%'
+//    					});
+    				}
+    			});
 
 	$('#desc-wrapper').resizable({
 		handles : 's',
@@ -263,12 +277,21 @@
 				'height' : '100%',
 				'width' : '100%'
 			})
+			
+			var porcentage = (($(this).width() * 100) / $('.tcm-container').width());
 			$(this).css({
 						'height' : '100%',
-						'width' : (($(this).width() * 100) / $('.tcm-container').width()) + '%'
+						'width' : porcentage + '%'
 			});
+			
+//			$('.right-pannel').css({
+//				'height' : '100%',
+//				'width' : (100 - ((($(this).width() + $('#rp-wrapper').width()) * 100) / $('.tcm-container').width())) + '%'
+//			});
 		}
 	});
+   
+
    }  
    
 function _makeResizable(){

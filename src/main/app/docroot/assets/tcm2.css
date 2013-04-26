@@ -424,7 +424,7 @@ margin:1px;
 }
 
 .left-pannel  { float:left; overflow:hidden; }
-.right-pannel   { overflow:hidden; width:auto; float:none; }
+.right-pannel   { overflow:hidden; width:auto; float:left; }
 .ui-resizable-helper { border: 2px dotted #00F; }
 .handle{
 	height:100%;
@@ -704,6 +704,12 @@ background: url(images/icon-fold.png) no-repeat 2px 3px transparent;
 .detailsIcon.detailsOpen {
 background: url(images/icon-fold.png) no-repeat 2px 3px transparent;
 background-position: 3px -24px;
+}
+
+#rp-wrapper{
+	width:30%;
+	float:right;
+	border:1px solid black;
 }
 
 /**************************/
