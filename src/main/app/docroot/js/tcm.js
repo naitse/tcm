@@ -38,8 +38,8 @@
     	   
     	   var test_cases = {
     			    url: {
-    			    	get:backend +'features/testcases?ftId=',
-    			    	add:backend +'/addTcs',
+    			    	get:backend +'testcases?ftId=',
+    			    	add:backend +'testcases',
     			    },  
     			  
     			    fetch: function (feature_id) {
@@ -56,6 +56,7 @@
       							cache:false,
       							url: this.url.add,
       							data:JSON.stringify(req),
+      							contentType: "application/json",
       							dataType: "json"
       						});
       			    }
@@ -139,12 +140,14 @@
         $('.desc-expander').live({
           click: function(){
         	  if($('.feature').size() != 0){
+        		  $(this).addClass('detailsOpen')
             	  expandIssueDescription();
             	  }
           }
         })
         $('.desc-collapser').live({
           click: function(){
+        	  $(this).removeClass('detailsOpen')
         	  collapsIssueDescription();
         	  
           }
@@ -161,14 +164,14 @@
         $('.tc-expander').live({
           click: function(){
         	  $(this).parents('.tc').find('.tc-steps').show('fast')
-        	  $(this).removeClass('tc-expander').addClass('tc-collapse');
+        	  $(this).removeClass('tc-expander').addClass('tc-collapse detailsOpen');
           }
         })
         
         $('.tc-collapse').live({
           click: function(){
         	  $(this).parents('.tc').find('.tc-steps').hide('fast')
-        	  $(this).removeClass('tc-collapse').addClass('tc-expander');
+        	  $(this).removeClass('tc-collapse detailsOpen').addClass('tc-expander');
           }
         })
         
@@ -433,7 +436,7 @@ function createTcHTML(tcObject){
 	
 	var tc = $('<div>').addClass('tc').attr('tc-id',tcObject.tcId)
 	var wrapper = $('<div>').addClass('wrapper')
-	var expander = $('<div>').addClass('tc-expander ds')
+	var expander = $('<div>').addClass('tc-expander detailsIcon ds')
 	var description = $('<div>').addClass('tc-description ds').text(tcObject.tcName.trunc(100,false))
 	var stats = $('<div>').addClass('tc-stats ds')
 		var btn_group = $('<div class="btn-group">')
@@ -545,7 +548,7 @@ function saveTc(modal){
 	}
 	
 	var req = {
-		feature:feature,
+		featureId:feature,
 		name:title,
 		description:desc,
 		proposed:proposed
@@ -556,7 +559,7 @@ function saveTc(modal){
 		$(modal).modal('hide')
 		test_cases.fetch(feature).done(function(data){
 			$(data).each(function(){
-				if($('.tc[tc-id="'+this.tcId+'"]').size() = 0){
+				if($('.tc[tc-id="'+this.tcId+'"]').size() == 0){
 					createTcHTML(this);
 				}
 			})

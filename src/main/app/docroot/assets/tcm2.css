@@ -81,7 +81,7 @@ box-shadow: inset 0px 0px 8px -3px black;
   padding-bottom: 29px;
   }
   .toolbar{
-    background: white;
+    background: #f7f7f7;
 /*     padding: 10px 10px 10px 10px; */
     border-bottom: 1px solid #6C7885;
     border-radius: 6px 6px 0px 0px;
@@ -104,7 +104,7 @@ box-shadow: inset 0px 0px 8px -3px black;
  .desc-header{
  height: 28px;
  border-bottom: 1px solid #ccc;
-background: white;
+background: #f7f7f7;
 font-weight:bold;
 overflow:hidden;
  }
@@ -405,10 +405,14 @@ overflow-y: auto;
 box-shadow: 0px 1px 12px 0px black inset;
 
 clear: both;
--webkit-box-shadow: rgba(69,69,69,0.667) 0 1px 3px inset;
--moz-box-shadow: rgba(69,69,69,0.667) 0 1px 3px inset;
-box-shadow: rgba(69,69,69,0.667) 0 1px 3px inset;
-background: white;
+/* -webkit-box-shadow: rgba(69,69,69,0.667) 0 1px 3px inset; */
+/* -moz-box-shadow: rgba(69,69,69,0.667) 0 1px 3px inset; */
+/* box-shadow: rgba(69,69,69,0.667) 0 1px 3px inset; */
+border-top: 1px solid #ddd;
+-webkit-box-shadow: 0 5px 3px -3px #e7e7e7 inset;
+-moz-box-shadow: 0 5px 3px -3px #e7e7e7 inset;
+box-shadow: 0 5px 3px -3px #e7e7e7 inset;
+background: #f7f7f7;
 padding: 10px;
 font-size: 12;
 margin:1px;
@@ -688,5 +692,18 @@ margin-right: 3px;
 padding: 8px 141px 8px 14px !important;
 }
 
+.detailsIcon {
+background-repeat: no-repeat;
+display: inline-block;
+height: 16px;
+margin-right: 2px;
+width: 16px;
+background: url(images/icon-fold.png) no-repeat 2px 3px transparent;
+}
+
+.detailsIcon.detailsOpen {
+background: url(images/icon-fold.png) no-repeat 2px 3px transparent;
+background-position: 3px -24px;
+}
 
 /**************************/
